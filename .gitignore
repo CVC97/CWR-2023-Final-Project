@@ -2,6 +2,7 @@
 *
 !*/
 !.gitignore
+!makefile
 
 
 # unignore Tex-File
