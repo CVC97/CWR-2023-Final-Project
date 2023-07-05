@@ -1,0 +1,116 @@
+%********************************Text********************************
+\RequirePackage[T1]{fontenc}            % Fonts (Essenziell)
+\RequirePackage[utf8]{inputenc}         %Umlaute direkt im Text (+ utf8 Symbole)
+\RequirePackage{fix-cm}                 % Schriftgrößenfix
+\RequirePackage{parskip}                % Leerzeile im Code sorgt für Absatz
+
+%********************************Layout********************************
+\RequirePackage[ngerman]{babel}         % Sprachunterstützung 
+\RequirePackage[margin = 1in]{geometry} % grundlegendes Seitenlayout
+\RequirePackage{fancyhdr}               % komplexeres Seitenlayout (header, footer etc.)
+
+%*******************************Literatur*******************************
+\RequirePackage[backend = biber, sorting = none]{biblatex}
+\addbibresource{sources.bib}
+
+%*********************************Mathe*********************************
+\RequirePackage{amsmath}                % Essenziell, zu viele funktionen um es hier aufzulisten
+\RequirePackage{physics}                % definiert euch nicht jeden Scheiß selber (z.b. Ableitungen)
+\numberwithin{equation}{section}
+
+
+% Fonts & Formatierung:
+\RequirePackage{amsfonts}
+\RequirePackage{exscale}
+\RequirePackage{stmaryrd}
+
+% Zusätzliche Symbole
+\RequirePackage{amssymb}
+\RequirePackage{latexsym}
+\RequirePackage[nointegrals]{wasysym}
+\RequirePackage{gensymb}
+\RequirePackage{eurosym}
+\newcommand{\corresponds}{\ensuremath{\mathrel{\widehat{=}}}}
+
+% Sonstiges
+\RequirePackage{extarrows}              % Mehr Pfeile etc.
+\RequirePackage{xfrac}                  % Definiert \sfrac als schrläger Bruchstrich
+
+%Code
+\RequirePackage{listings}               % ermöglicht Code-Felder
+\lstset{
+    frame=single,
+    language=C,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green},
+    stringstyle=\color{red},
+    numbers=left,
+}
+
+%*****************************Figures, etc.*****************************
+\RequirePackage{graphicx}               % Zur Grafikausgabe
+\RequirePackage{wrapfig}                % Text um Floats fließen lassen 
+\RequirePackage{float}                  % Tabellen an Stelle zwingen mit [H]
+\RequirePackage{multirow}               % Mehr Freihiet in tabellen
+\RequirePackage{tikz}                   % Vektorgrafiken in LaTeX (advanced, aber worth it)
+\RequirePackage{pgfplots}               % Graphen im LaTeX dokument progarmmieren
+\RequirePackage{pgfplotstable}          % Für lineare Regressionen in pgfplots
+    \pgfplotsset{compat=1.16}           % For kompatibilität
+\RequirePackage{subcaption}             % Mehrere Grafiken in einer figure umgebung
+\RequirePackage[labelfont=bf]{caption}	% Captionlayout
+\RequirePackage{longtable}              % \begin{longtable}\end{longtable} Tabellen über mehrere Seiten             
+%********************************Tabellenmakros********************************
+\RequirePackage{tabularx}                   % Tabularx > tabular
+\RequirePackage{xltabular}                  % longtable für tabularx
+\RequirePackage{booktabs}                   % keine Spaces in den äußeren Spalten
+\renewcommand{\arraystretch}{1.2}           % Zeilenhöhe
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+%********************************Prettyref********************************
+\RequirePackage{prettyref}
+\newrefformat{sec}{Kapitel~\ref{#1}}
+\newrefformat{ssec}{Sub-Kapitel~\ref{#1}}
+\newrefformat{sssec}{Sub-Sub-Kapitel~\ref{#1}}
+\newrefformat{apx}{Anhang~\ref{#1}}
+\newrefformat{tab}{Tabelle~\ref{#1}}
+\newrefformat{fig}{Abbildung~\ref{#1}}
+\newrefformat{eq}{Gleichung~\ref{#1}}
+
+%********************************Sonstiges********************************
+%\RequirePackage{placeins}              % Definiert \FloatBarrier, an dem Floats nicht vorbeikommen
+\RequirePackage[section]{placeins}      % Sections sind automatisch Floatbarriers 
+\RequirePackage{xcolor}                 % bessere Farbunterstüzung
+\RequirePackage{colortbl}
+\RequirePackage{icomma}                 % Kommas als Dezimaltrennzeichen
+\RequirePackage{hyperref}               % Für Links, Bsp: \url{www.wikipedia.de}
+\RequirePackage{ragged2e}               % Textausrichtunsbefehle
+\RequirePackage{comment}                % Textblöcke mit \begin{comment] \end{comment} suskommentieren.
+\RequirePackage{enumitem}               % Bessere Listenumgebungen
+\RequirePackage{csquotes}               % Definiert \textquote{} als schöne Zitierumgebung
+\RequirePackage{contour}                % Umrandet Text in Hintergrundfarbe, Lesbarkeit in Grafiken
+    \contourlength{0.02pt}
+    \contournumber{3}
+
+%********************************SI Einheiten********************************
+\RequirePackage{siunitx}                % Einhieten in LaTeX schreiben
+
+\sisetup{                               % Selbserklärende Einstellungen für siunitx
+    locale = DE,
+    mode=text,
+    output-decimal-marker = {,},
+    exponent-product=\cdot,
+    separate-uncertainty = true,
+    range-phrase=~bis~,                 % für z.B. numrange oder SIrange
+    %prefixes-as-symbols = false,
+    %exponent-to-prefix = true,
+    list-final-separator = {~und~},     % für z.B. numlist
+    per-mode=fraction,
+}
+
+% SI-Einheiten als \SI{<num>}{<unit>} schreiben, ohne Zahl nur \si{<unit>}.
+% Bsp.: \SI{1,23(4)}{\kg\m\tothe{2}\per\mA\per\s\tothe{3}} (statt \tothe ^ zu verwenden beißt sich mit "per-mode=fraction")
+% winkel als \ang{;;} Grad;Min;Sek,
+%***************************************************************************
