@@ -10,11 +10,12 @@
 !*.cls
 !*.sty
 !*.bib
-!*.pdf
+
+!spread_of_infection.pdf
 
 
 # unignore
 !*.c
 !*.h
+!*.py
 !*.ipynb
-

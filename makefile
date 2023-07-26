@@ -1,5 +1,5 @@
 # Datei, die kompiliert werden soll (ohne Endung)
-BINARY := project_name
+BINARY := spread_of_infection
 HEADER1 := cvc_numerics
 HEADER2 := cvc_rng
 
@@ -30,7 +30,7 @@ run: $(BINARY)
 
 # PDF erstellen
 pdf:
-	cd project_pdf && lualatex main.tex && mv main.pdf ../$(BINARY).pdf
+	cd soi_pdf && lualatex main.tex && mv main.pdf ../$(BINARY).pdf
 	
 
 # Clean
