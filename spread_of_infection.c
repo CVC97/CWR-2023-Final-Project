@@ -9,9 +9,10 @@
 
 // generate uniforms using static Mersenne-Twister MT19937 to reduce parameters
 double random_uniform(void) {
-    static gsl_rng* generator;
-    if (!generator) {
+    static gsl_rng* generator = NULL;                                           // initializing the static rng variable
+    if (generator == NULL) {                                                    // initializing MT19937 as rng at the first function call 
         generator = gsl_rng_alloc(gsl_rng_mt19937);
+        gsl_rng_set(generator, time(NULL));
     }
     return gsl_rng_uniform(generator);
 }
@@ -130,7 +131,7 @@ double ratio_infected(int *grid, int length) {
             }
         }
     }
-    return sum_infected / cvc_npow(length-2, 2);
+    return sum_infected / ((length-2) * (length-2));
 } 
 
 
@@ -148,63 +149,63 @@ double average_ratio_infected(int *grid, int length, int T, double *probabilitie
 int main(void) {
 
 // +++ Aufgabe 1 +++
+//     {
 
-{
-    double probability_array[4];                                                // array with the probabilities pi 
-    int L;                                                                      // integer sidelegth 'L' of the squared grid of people
+//     double probability_array[4];                                                // array with the probabilities pi 
+//     int L;                                                                      // integer sidelegth 'L' of the squared grid of people
 
-    // input of the probablities 'pi' and the sidelength 'L' of the quadratic grid and saving the probabilities in the corresponding array
-    printf("Enter p1 (susceptible -> infected): ");
-    scanf("%lg", &probability_array[0]);                                        // probability 'p1' of a susceptible person getting infected (given an infected neighbor)
-    printf("Enter p2 (infected -> recovered): ");
-    scanf("%lg", &probability_array[1]);                                        // probability 'p2' of an infected person turning recovered 
-    printf("Enter p3 (recovered -> susceptible): ");
-    scanf("%lg", &probability_array[2]);                                        // probability 'p3' of a recovered person returning susceptible
-    probability_array[3] = 0;                                                   // no vaccinated people V
-    printf("Enter size of grid L: ");
-    scanf("%d", &L);                                                            // integer sidelegth 'L' of the squared grid of people
+//     // input of the probablities 'pi' and the sidelength 'L' of the quadratic grid and saving the probabilities in the corresponding array
+//     printf("Enter p1 (susceptible -> infected): ");
+//     scanf("%lg", &probability_array[0]);                                        // probability 'p1' of a susceptible person getting infected (given an infected neighbor)
+//     printf("Enter p2 (infected -> recovered): ");
+//     scanf("%lg", &probability_array[1]);                                        // probability 'p2' of an infected person turning recovered 
+//     printf("Enter p3 (recovered -> susceptible): ");
+//     scanf("%lg", &probability_array[2]);                                        // probability 'p3' of a recovered person returning susceptible
+//     probability_array[3] = 0;                                                   // no vaccinated people V
+//     printf("Enter size of grid L: ");
+//     scanf("%d", &L);                                                            // integer sidelegth 'L' of the squared grid of people
 
-    // allocating zeroed memory for the quadratic grid L^2 including non-participating borders and operating on the grid
-    int *infectious_grid = (int*) calloc((L+2)*(L+2), sizeof(int));
-    grid_init(infectious_grid, L+2, probability_array);
-    print_grid(infectious_grid, L+2);
-    printf("\nPress 'ENTER' to update grid for the new timestep. Enter 'q' to quit and continue.");
-    while (getchar() != '\n');
+//     // allocating zeroed memory for the quadratic grid L^2 including non-participating borders and operating on the grid
+//     int *infectious_grid = (int*) calloc((L+2)*(L+2), sizeof(int));
+//     grid_init(infectious_grid, L+2, probability_array);
+//     print_grid(infectious_grid, L+2);
+//     printf("\nPress 'ENTER' to update grid for the new timestep. Enter 'q' to quit and continue.");
+//     while (getchar() != '\n');
 
-    // update grid manually for one timestep
-    char c;                                                                     // input variable c
-    while ((c = getchar()) != EOF ) {
-        if (c == '\n') {                                                        // confirm input with 'ENTER' and act accordingly to the previously last valid input
-            grid_update_linear(infectious_grid, L+2, probability_array);
-            print_grid(infectious_grid, L+2);
-        } else if (c == 'q') {                                                  // quit and continue with further code
-            break;
-        }
-    }
-    free(infectious_grid);
-}
+//     // update grid manually for one timestep
+//     char c;                                                                     // input variable c
+//     while ((c = getchar()) != EOF ) {
+//         if (c == '\n') {                                                        // confirm input with 'ENTER' and act accordingly to the previously last valid input
+//             grid_update_linear(infectious_grid, L+2, probability_array);
+//             print_grid(infectious_grid, L+2);
+//         } else if (c == 'q') {                                                  // quit and continue with further code
+//             break;
+//         }
+//     }
+//     free(infectious_grid);
 
-// +++ Aufgabe 2: average of the expected number of infected people over 'T' simulation steps dependent on p1 for different grid sizes (16, 32, 64) and variations in p2 and p3 +++ 
-{
-    int L = 4;                                                                  // initializing L for later modification
+// }
+// +++ Aufgabe 2: average of the expected number of infected people depending on 'p1' over 'T' simulation steps for different grid sizes (16, 32, 64) and variations in p2 and p3 +++ 
+    {
+
     int T = 1000;                                                               // number 'T' of simulation steps
 
     // setting up the files a, b and c for the various combinations of p2 and p3 with their first row p1 values
     FILE* average_ratio_file_a = fopen("soi_data/soi_average_ratio_infected_over_p1_a.csv", "w");
     FILE* average_ratio_file_b = fopen("soi_data/soi_average_ratio_infected_over_p1_b.csv", "w");
     FILE* average_ratio_file_c = fopen("soi_data/soi_average_ratio_infected_over_p1_c.csv", "w");
-    fprintf(average_ratio_file_a, "L");
-    fprintf(average_ratio_file_b, "L");
-    fprintf(average_ratio_file_c, "L");
+    fprintf(average_ratio_file_a, "0");
+    fprintf(average_ratio_file_b, "0");
+    fprintf(average_ratio_file_c, "0");
     for (double p1 = 0; p1 <= 1; p1 += 0.02) {
         fprintf(average_ratio_file_a, ", %g", p1);
         fprintf(average_ratio_file_b, ", %g", p1);
         fprintf(average_ratio_file_c, ", %g", p1);
     }
 
-    // iteration over 'L' (8, 16, 32, 64) to receive the avg. ratio of infected people in the grid for 'T' simulations steps depending on 'p1' for each 'L' and 
-    for (int i = 0; i < 4; i++) {
-        L *= 2;
+    // iteration over 'L' (32, 64, 128) to receive the avg. ratio of infected people in the grid for 'T' simulations steps depending on 'p1' for each 'L' and 
+    for (int L = 32; L <= 96; L += 32) {
+        printf("A2: calculating L = %d\n", L);
 
         // setting up the rows with each L in the files
         fprintf(average_ratio_file_a, "\n%d", L);
@@ -228,11 +229,11 @@ int main(void) {
             grid_init(infectious_grid_c, L+2, probability_array_c);
 
             // caching the average ratio for later output in file form
-            double avg_ratio_a = average_ratio_infected(infectious_grid_a, L+1, T, probability_array_a);
-            double avg_ratio_b = average_ratio_infected(infectious_grid_b, L+1, T, probability_array_b);
-            double avg_ratio_c = average_ratio_infected(infectious_grid_c, L+1, T, probability_array_c);
+            double avg_ratio_a = average_ratio_infected(infectious_grid_a, L+2, T, probability_array_a);
+            double avg_ratio_b = average_ratio_infected(infectious_grid_b, L+2, T, probability_array_b);
+            double avg_ratio_c = average_ratio_infected(infectious_grid_c, L+2, T, probability_array_c);
 
-            // writing the average values for each p1 in each of the files a, b and c
+            // writing the average ratios for each p1 in each of the files a, b and c
             fprintf(average_ratio_file_a, ", %g", avg_ratio_a);
             fprintf(average_ratio_file_b, ", %g", avg_ratio_b);
             fprintf(average_ratio_file_c, ", %g", avg_ratio_c);
@@ -244,9 +245,10 @@ int main(void) {
     fclose(average_ratio_file_a);
     fclose(average_ratio_file_b);
     fclose(average_ratio_file_c);
-    
-}
+
+    }
 // +++ Aufgabe 3 +++ 
+    {
 
     // double p1 = 0.5;                                                            // probability 'p1' of a susceptible person getting infected (given an infected neighbor)
     // double p2 = 0.5;                                                            // probability 'p2' of an infected person turning recovered 
@@ -254,5 +256,7 @@ int main(void) {
     // double p4 = 0;                                                              // likelyhood 'p4' of a person appearing vaccinated and completely immunized, thus not participating in the spread at all
     // int L = 8;                                                                  // integer sidelegth 'L' of the squared grid of people
     // double probability_array[4] = {p1, p2, p3, p4};
+
+    }
     return 0;
 }

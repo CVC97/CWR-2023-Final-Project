@@ -1,14 +1,14 @@
-# Datei, die kompiliert werden soll (ohne Endung)
+# files to be compiled (without suffix)
 BINARY := spread_of_infection
 HEADER1 := cvc_numerics
 HEADER2 := cvc_rng
 
 
-# Flags
+# flags
 FLAGS := -lm -lgsl -lgslcblas -Wall -std=c99
 
 
-# Kompilieren
+# compile
 $(BINARY): $(BINARY).o $(HEADER1).o $(HEADER2).o
 	gcc $(BINARY).o $(HEADER1).o $(HEADER2).o -o $(BINARY) $(FLAGS)
 
@@ -22,18 +22,22 @@ $(HEADER2).o: $(HEADER2).c
 	gcc -c $(HEADER2).c
 
 
-
-# Ausführen
+# run
 run: $(BINARY)
 	./$< $(ARGS)
 
 
-# PDF erstellen
-pdf:
-	cd soi_pdf && lualatex main.tex && mv main.pdf ../$(BINARY).pdf
-	
+# plot
+plot: 
+	cd soi_data && python3 soi_plotting.py 
 
-# Clean
+
+# compile and move PDF to main folder
+pdf:
+	cd soi_pdf && lualatex main.tex && mv main.pdf ../$(BINARY).pdf	
+
+
+# clean
 clean:
 	rm -f *.o
 	rm -f $(HEADER1).o
