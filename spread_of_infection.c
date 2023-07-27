@@ -9,8 +9,8 @@
 
 // generate uniforms using static Mersenne-Twister MT19937 to reduce parameters
 double random_uniform(void) {
-    static gsl_rng* generator = NULL;                                           // initializing the static rng variable
-    if (generator == NULL) {                                                    // initializing MT19937 as rng at the first function call 
+    static gsl_rng* generator = NULL;                                               // initializing the static rng variable
+    if (generator == NULL) {                                                        // initializing MT19937 as rng at the first function call 
         generator = gsl_rng_alloc(gsl_rng_mt19937);
         gsl_rng_set(generator, time(NULL));
     }
