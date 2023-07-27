@@ -185,7 +185,7 @@ int main(void) {
 //     free(infectious_grid);
 
 // }
-// +++ Aufgabe 2: average of the expected number of infected people depending on 'p1' over 'T' simulation steps for different grid sizes (16, 32, 64) and variations in p2 and p3 +++ 
+// +++ Aufgabe 2: average of the expected number of infected people depending on the turnover rate from susceptible to infected 'p1' +++ 
     {
 
     int T = 1000;                                                               // number 'T' of simulation steps
@@ -203,11 +203,11 @@ int main(void) {
         fprintf(average_ratio_file_c, ", %g", p1);
     }
 
-    // iteration over 'L' (32, 64, 128) to receive the avg. ratio of infected people in the grid for 'T' simulations steps depending on 'p1' for each 'L' and 
+    // iteration over 'L' (32, 64, 196) to receive the avg. ratio of infected people in the grid depending on 'p1' for each 'L' and different combinations of p2 and p3 
     for (int L = 32; L <= 96; L += 32) {
-        printf("A2: calculating L = %d\n", L);
+        printf("A2: calculating L = %d\n", L);                                  // progress bar for A2
 
-        // setting up the rows with each L in the files
+        // setting up the rows with each 'L' in the files
         fprintf(average_ratio_file_a, "\n%d", L);
         fprintf(average_ratio_file_b, "\n%d", L);
         fprintf(average_ratio_file_c, "\n%d", L);
@@ -217,11 +217,11 @@ int main(void) {
         int *infectious_grid_b = (int*) calloc((L+2)*(L+2), sizeof(int));
         int *infectious_grid_c = (int*) calloc((L+2)*(L+2), sizeof(int));
 
-        // iteration over p1 for the main dependency
+        // iteration over 'p1' for the main dependency
         for (double p1 = 0; p1 <= 1; p1 += 0.02) {
-            double probability_array_a[4] = {p1, 0.3, 0.3, 0};                  // probability array for a: p2 = 0.3 and p3 = 0.3
-            double probability_array_b[4] = {p1, 0.6, 0.3, 0};                  // probability array for b: p2 = 0.6 and p3 = 0.3
-            double probability_array_c[4] = {p1, 0.3, 0.6, 0};                  // probability array for c: p2 = 0.3 and p3 = 0.6
+            double probability_array_a[4] = {p1, 0.3, 0.3, 0};                  // probability array for a: 'p2' = 0.3 and 'p3' = 0.3
+            double probability_array_b[4] = {p1, 0.6, 0.3, 0};                  // probability array for b: 'p2' = 0.6 and 'p3' = 0.3
+            double probability_array_c[4] = {p1, 0.3, 0.6, 0};                  // probability array for c: 'p2' = 0.3 and 'p3' = 0.6
 
             // initializing the grids a, b and c 
             grid_init(infectious_grid_a, L+2, probability_array_a);
@@ -233,7 +233,7 @@ int main(void) {
             double avg_ratio_b = average_ratio_infected(infectious_grid_b, L+2, T, probability_array_b);
             double avg_ratio_c = average_ratio_infected(infectious_grid_c, L+2, T, probability_array_c);
 
-            // writing the average ratios for each p1 in each of the files a, b and c
+            // writing the average ratios for each 'p1' in each of the files a, b and c
             fprintf(average_ratio_file_a, ", %g", avg_ratio_a);
             fprintf(average_ratio_file_b, ", %g", avg_ratio_b);
             fprintf(average_ratio_file_c, ", %g", avg_ratio_c);
@@ -247,16 +247,35 @@ int main(void) {
     fclose(average_ratio_file_c);
 
     }
-// +++ Aufgabe 3 +++ 
+// +++ Aufgabe 3: average of the expected number of infected people depending on the rate of vaccinated, non-reactive people in the model 'p4' +++ 
     {
 
-    // double p1 = 0.5;                                                            // probability 'p1' of a susceptible person getting infected (given an infected neighbor)
-    // double p2 = 0.5;                                                            // probability 'p2' of an infected person turning recovered 
-    // double p3 = 0.5;                                                            // probability 'p3' of a recovered person returning susceptible
-    // double p4 = 0;                                                              // likelyhood 'p4' of a person appearing vaccinated and completely immunized, thus not participating in the spread at all
-    // int L = 8;                                                                  // integer sidelegth 'L' of the squared grid of people
-    // double probability_array[4] = {p1, p2, p3, p4};
+    int T = 1000;                                                               // number 'T' of simulation steps
+
+    // setting up the file for the average number of infected people over 'p4' with its first line
+    FILE* average_ratio_file_v = fopen("soi_data/soi_average_ratio_infected_over_p4_v.csv", "w");
+    fprintf(average_ratio_file_v, "0");
+    for (double p4 = 0; p4 <= 1; p4 += 0.02) {
+        fprintf(average_ratio_file_v, ", %g", p4);
+    }
+
+    // iteration over 'L' (32, 64, 96) to receive the avg. ratio of infected people for variable rates of vaccinated people 'p4'
+    for (int L = 32; L <= 96; L += 32) {
+        printf("A3: calculating L = %d\n", L);                                  // progress bar for A3
+        int *infectious_grid_v = (int*) calloc((L+2)*(L+2), sizeof(int));       // allocating memory for the respective grid containing vaccinated individuals
+
+        // iteration over 'p4' as the main dependency
+        for (double p4 = 0; p4 <= 1; p4 += 0.02) {
+            double probability_array_v[4] = {0.5, 0.5, 0.5, p4};                // probability array with 'p1' = 'p2' = 'p3' = 0.5 and variable 'p4'
+            grid_init(infectious_grid_v, L+2, probability_array_v);             // initializing the vaccinated grid with its respective probability array
+            double avg_ratio_v = average_ratio_infected(infectious_grid_v, L+2, T, probability_array_v);
+            fprintf(average_ratio_file_v, ", %g", avg_ratio_v);                 // transfering the ratios into the data file
+        }
+        free(infectious_grid_v);
+    }
+    fclose(average_ratio_file_v);
 
     }
+// +++ Supplementary data generation: +++
     return 0;
 }

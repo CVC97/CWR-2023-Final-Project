@@ -28,9 +28,9 @@ avg_ratio_infected_p1_03_06_L96 = soi_avg_ratio_infected_over_p1_03_06[3,1:]
 
 
 # plotting of the data
-fig, ax = plt.subplots(1, 3, figsize=(20, 7.5))
+fig, ax = plt.subplots(3, figsize=(12.5, 16.5))
 
-ax[0].set_xlabel(r'$p_1$')
+#ax[0].set_xlabel(r'$p_1$')
 ax[0].set_ylabel(r'avg. number of infected people $\overline{\langle I\rangle}$')
 ax[0].grid()
 ax[0].grid(which='minor', color = '#999999', alpha = 0.2, linestyle = '-')
@@ -46,7 +46,7 @@ ax[0].legend(loc = "upper left")
 ax[0].set_ylim([-0.02, 0.6])
 
 
-ax[1].set_xlabel(r'$p_1$')
+#ax[1].set_xlabel(r'$p_1$')
 ax[1].set_ylabel(r'avg. number of infected people $\overline{\langle I\rangle}$')
 ax[1].grid()
 ax[1].grid(which='minor', color = '#999999', alpha = 0.2, linestyle = '-')
@@ -78,11 +78,12 @@ ax[2].legend(loc = "upper left")
 ax[2].set_ylim([-0.02, 0.6])
 
 plt.savefig('./soi_average_infected_over_p1.png', facecolor = 'white', bbox_inches='tight')
+plt.savefig('./soi_average_infected_over_p1.pgf', facecolor = 'white', bbox_inches='tight')
 #plt.show()
 
 
 # refined plot for L = 96
-fig, ax = plt.subplots(1, 2, figsize=(20, 7.5))
+fig, ax = plt.subplots(1, 2, figsize=(12.5, 4))
 
 ax[0].set_xlabel(r'$p_1$')
 ax[0].set_ylabel(r'avg. number of infected people $\overline{\langle I\rangle}$')
@@ -102,7 +103,7 @@ ax[0].set_ylim([-0.02, 0.6])
 
 
 ax[1].set_xlabel(r'$p_1$')
-ax[1].set_ylabel(r'avg. number of infected people $\overline{\langle I\rangle}$')
+#ax[1].set_ylabel(r'avg. number of infected people $\overline{\langle I\rangle}$')
 
 ax[1].grid()
 ax[1].grid(which='minor', color = '#999999', alpha = 0.2, linestyle = '-')
@@ -116,7 +117,8 @@ ax[1].set_title(r'$\overline{\langle I\rangle}$ over $p_1$ for $T=1000$ for $L=9
 ax[1].legend()
 ax[1].legend(loc = "upper left")
 ax[1].set_xlim([-0.01, 0.2])
-ax[1].set_ylim([-0.02, 0.1])
+ax[1].set_ylim([-0.01, 0.1])
 
 plt.savefig('./soi_average_infected_over_p1_L96.png', facecolor = 'white', bbox_inches='tight')
+plt.savefig('./soi_average_infected_over_p1_L96.pgf', facecolor = 'white', bbox_inches='tight')
 #plt.show()
