@@ -77,8 +77,4 @@ void cvc_rk4_step(double t, double delta_t, double y[], cvc_ode_func func, int d
 void cvc_verlet_step(double t, double delta_t, double y[], cvc_ode_func func, int dimension, void *params);
 
 
-// Lösung eines Linearen Gleichungssystems für gegebene LR-Zerlegung einer Matrix 
-void triangular_solve(double diag[], double lower[], double upper[], double rhs[], double solution[]);
-
-
 #endif

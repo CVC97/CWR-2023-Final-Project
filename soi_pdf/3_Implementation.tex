@@ -2,4 +2,15 @@
 
 \subsection{Use of the Libraries \texttt{cvc\_numerics.h} and \texttt{cvc\_rng.h}}
 
-\subsection{Structure of the Main Implementation}
+\subsection{Structure of the Main Program}
+
+The above mentioned grid itself is realized as a $\left(L+2\right)\times \left(L+2\right)$ heap section of integer values, with $L$ being the sidelength of the quadratic grid where the actual spread of the infection takes place.
+While this section is technically one-dimensional, it will for simplicity reasons be here refered to as a two-dimensional structure of the given shape. Inside the grid, the following integer values have been used 
+to model the different states of the people within the simulation:
+\begin{itemize}
+    \item \textbf{0:} this person is susceptible \textit{S} to the infection
+    \item \textbf{1:} the person is infected \textit{I}
+    \item \textbf{2:} the person is recovered \textit{R} and currently not susceptible
+    \item \textbf{-1:} the person is vaccinated \textit{V} and does not participate in the spread
+\end{itemize}
+The grid has been implemented with an edge of ghosts at the top, bottom, left and right border, that are neither infectious nor subject to any updates of the grid --- they will permanently take the value \textbf{0}.
