@@ -39,14 +39,14 @@ void print_grid(int *grid, int length) {
 
 // initialize the given 'grid' of 'length' (L+2) with integers 0 (susceptible S), 1 (infected I), 2 (recovered R) and -1 (vaccinated V)
 void grid_init(int *grid, int length, double *probabilities) {
-    double p4 = probabilities[3];                                               // caching the probability of someone being initialized as V                                      
+    double p4 = probabilities[3];                                                   // caching the probability of someone being initialized as V                                      
 
     // iterating through the grid ignoring the borders
     for (int row_i = 1; row_i < length-1; row_i++) {
         for (int column_j = 1; column_j < length-1; column_j++) {
-            if (random_uniform() < p4) {                                        // person is initialized as V for random_uniform < 'p4'
+            if (random_uniform() < p4) {                                            // person is initialized as V for random_uniform < 'p4'
                 grid[row_i*length + column_j] = -1;
-            } else {                                                            // person initialized as S, I or R with equal probabilities 
+            } else {                                                                // person initialized as S, I or R with equal probabilities 
                 grid[row_i*length + column_j] = (int) (random_uniform() * 3);
             }
         }
