@@ -2,19 +2,19 @@
 
 \subsection{Model for the Spread of Infectious Diseases}
 
-\subsection{Number of Infected People over Time}
+\subsection{Expected Ratio of Infected People averaged over Time}
 
 
 \begin{figure}[ht]
     \centering
-    \resizebox{\textwidth}{!}{\input{../soi_data/soi_average_infected_over_p1.pgf}}
+    \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p1.pgf}}
     \caption{Graphic}\label{fig:Res_Dis_Avg_Inf_over_p1}
 \end{figure}
 
 
 \begin{figure}[ht]
     \centering
-    \resizebox{\textwidth}{!}{\input{../soi_data/soi_average_infected_over_p1_L96.pgf}}
+    \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p1_L96.pgf}}
     \caption{Graphic}\label{fig:Res_Dis_Avg_Inf_over_p1_L96}
 \end{figure}
 
@@ -22,6 +22,11 @@
 
 \begin{figure}[ht]
     \centering
-    \resizebox{\textwidth}{!}{\input{../soi_data/soi_average_infected_over_p4.pgf}}
+    \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p4.pgf}}
     \caption{Graphic}\label{fig:Res_Dis_Avg_Inf_over_p4}
 \end{figure}
+
+\subsection{Time Development of the Expected Ratio of Infected People}
+
+While previously the average of the ratio of infected individuals has been taken over time, the focus should now be layed on the time development of th einfection rate $\langle I\rangle_t$ for $N=20$ samples.
+As grid size $L=64$ was chosen for appropriate balance between running time and accuracy, the number of simulation steps again was set to $T=1000$.

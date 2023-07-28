@@ -31,7 +31,7 @@ avg_ratio_infected_p1_03_06_L96 = soi_avg_ratio_infected_over_p1_03_06[3,1:]
 fig, ax = plt.subplots(3, figsize=(12.5, 16.5))
 
 #ax[0].set_xlabel(r'$p_1$')
-ax[0].set_ylabel(r'avg. number of infected people $\overline{\langle I\rangle}$')
+ax[0].set_ylabel(r'avg. infection rate $\overline{\langle I\rangle}$')
 ax[0].grid()
 ax[0].grid(which='minor', color = '#999999', alpha = 0.2, linestyle = '-')
 ax[0].minorticks_on()
@@ -47,7 +47,7 @@ ax[0].set_ylim([-0.02, 0.6])
 
 
 #ax[1].set_xlabel(r'$p_1$')
-ax[1].set_ylabel(r'avg. number of infected people $\overline{\langle I\rangle}$')
+ax[1].set_ylabel(r'avg. infection rate $\overline{\langle I\rangle}$')
 ax[1].grid()
 ax[1].grid(which='minor', color = '#999999', alpha = 0.2, linestyle = '-')
 ax[1].minorticks_on()
@@ -63,7 +63,7 @@ ax[1].set_ylim([-0.02, 0.6])
 
 
 ax[2].set_xlabel(r'turnover probability $p_1$ from susceptible $S$ to infected $I$')
-ax[2].set_ylabel(r'avg. number of infected people $\overline{\langle I\rangle}$')
+ax[2].set_ylabel(r'avg. infection rate $\overline{\langle I\rangle}$')
 ax[2].grid()
 ax[2].grid(which='minor', color = '#999999', alpha = 0.2, linestyle = '-')
 ax[2].minorticks_on()
@@ -77,16 +77,15 @@ ax[2].legend()
 ax[2].legend(loc = "upper left")
 ax[2].set_ylim([-0.02, 0.6])
 
-plt.savefig('./soi_average_infected_over_p1.png', facecolor = 'white', bbox_inches='tight')
-plt.savefig('./soi_average_infected_over_p1.pgf', facecolor = 'white', bbox_inches='tight')
-#plt.show()
+plt.savefig('visualizations/soi_average_infected_over_p1.pdf', facecolor = 'white', bbox_inches='tight')
+plt.savefig('../soi_pdf/images/soi_average_infected_over_p1.pgf', facecolor = 'white', bbox_inches='tight')
 
 
 # refined plot for L = 96
 fig, ax = plt.subplots(1, 2, figsize=(12.5, 5.5))
 
 ax[0].set_xlabel(r'turnover probability $p_1$ from susceptible $S$ to infected $I$')
-ax[0].set_ylabel(r'avg. number of infected people $\overline{\langle I\rangle}$')
+ax[0].set_ylabel(r'avg. infection rate $\overline{\langle I\rangle}$')
 
 ax[0].grid()
 ax[0].grid(which='minor', color = '#999999', alpha = 0.2, linestyle = '-')
@@ -119,9 +118,8 @@ ax[1].legend(loc = "upper left")
 ax[1].set_xlim([-0.01, 0.2])
 ax[1].set_ylim([-0.01, 0.1])
 
-plt.savefig('./soi_average_infected_over_p1_L96.png', facecolor = 'white', bbox_inches='tight')
-plt.savefig('./soi_average_infected_over_p1_L96.pgf', facecolor = 'white', bbox_inches='tight')
-#plt.show()
+plt.savefig('visualizations/soi_average_infected_over_p1_L96.pdf', facecolor = 'white', bbox_inches='tight')
+plt.savefig('../soi_pdf/images/soi_average_infected_over_p1_L96.pgf', facecolor = 'white', bbox_inches='tight')
 
 
 # +++ Aufgabe 3: average of the expected number of infected people depending on 'p4' +++
@@ -139,7 +137,7 @@ avg_ratio_infected_p4_L96 = soi_avg_ratio_infected_over_p4[3,1:]
 fig, ax = plt.subplots(figsize=(12.5, 5.5))
 
 ax.set_xlabel(r'probability $p_4$ of a vaccinated person $V$ occupying a grid node')
-ax.set_ylabel(r'avg. number of infected people $\overline{\langle I\rangle}$')
+ax.set_ylabel(r'avg. infection rate $\overline{\langle I\rangle}$')
 ax.grid()
 ax.grid(which='minor', color = '#999999', alpha = 0.2, linestyle = '-')
 ax.minorticks_on()
@@ -154,5 +152,32 @@ ax.legend(loc = "upper right")
 #ax.set_0lim([-0.02, 0.5])
 
 
-plt.savefig('./soi_average_infected_over_p4.png', facecolor = 'white', bbox_inches='tight')
-plt.savefig('./soi_average_infected_over_p4.pgf', facecolor = 'white', bbox_inches='tight')
+plt.savefig('visualizations/soi_average_infected_over_p4.pdf', facecolor = 'white', bbox_inches='tight')
+plt.savefig('../soi_pdf/images/soi_average_infected_over_p4.pgf', facecolor = 'white', bbox_inches='tight')
+
+
+# +++ Time Analysis: time development of the infection rate over N samples +++
+
+# processing of the data
+soi_ratio_over_time = np.loadtxt("soi_ratio_over_time.csv", delimiter = ",", skiprows = 0)
+time_array = soi_ratio_over_time[0,1:]
+
+
+# plotting of the data
+fig, ax = plt.subplots(figsize=(12.5, 5.5))
+
+ax.set_xlabel(r'time step $t$')
+ax.set_ylabel(r'infection rate $\langle I\rangle_t$')
+ax.grid()
+ax.grid(which='minor', color = '#999999', alpha = 0.2, linestyle = '-')
+ax.minorticks_on()
+
+for ratio_over_time in soi_ratio_over_time[1:,1:]:
+    ax.plot(time_array, ratio_over_time, color = 'grey', alpha = 0.1, linewidth = 1)
+
+ax.set_title(r'$\langle I\rangle_t$ over $t$ for $T=1000$ and $L=64$ with $p_1=p_2=p_3=0.5$')
+#ax.set_0lim([-0.02, 0.5])
+
+
+plt.savefig('visualizations/soi_infected_over_time.pdf', facecolor = 'white', bbox_inches='tight')
+plt.savefig('../soi_pdf/images/soi_infected_over_time.pgf', facecolor = 'white', bbox_inches='tight')
