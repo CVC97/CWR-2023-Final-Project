@@ -161,6 +161,8 @@ plt.savefig('../soi_pdf/images/soi_average_infected_over_p4.pgf', facecolor = 'w
 # processing of the data
 soi_ratio_over_time = np.loadtxt("soi_ratio_over_time.csv", delimiter = ",", skiprows = 0)
 time_array = soi_ratio_over_time[0,1:]
+mean_array = soi_ratio_over_time[-2,1:]
+sigma_array = soi_ratio_over_time[-1,1:]
 
 
 # plotting of the data
@@ -172,10 +174,15 @@ ax.grid()
 ax.grid(which='minor', color = '#999999', alpha = 0.2, linestyle = '-')
 ax.minorticks_on()
 
-for ratio_over_time in soi_ratio_over_time[1:,1:]:
-    ax.plot(time_array, ratio_over_time, color = 'grey', alpha = 0.1, linewidth = 1)
+ax.plot(time_array, soi_ratio_over_time[2,1:], color = 'grey', alpha = 0.25, linewidth = 0.5, label = r'individual samples $\langle I\rangle_t$')
+for ratio_over_time in soi_ratio_over_time[2:-2,1:]:
+    ax.plot(time_array, ratio_over_time, color = 'grey', alpha = 0.25, linewidth = 0.5)
+ax.plot(time_array, mean_array, color = 'black', alpha = 0.75, linewidth = 1, label = r'mean $\overline{\langle I\rangle_t}$')
+ax.fill_between(time_array, mean_array-sigma_array, mean_array+sigma_array, color = 'xkcd:red pink', alpha = 0.2, linewidth = 1, label = r'standard deviation $\sigma_{\langle I\rangle_t}$')
 
-ax.set_title(r'$\langle I\rangle_t$ over $t$ for $T=1000$ and $L=64$ with $p_1=p_2=p_3=0.5$')
+ax.set_title(r'time evolution of $\langle I\rangle_t$ for $T=1000$ simulation steps and $L=64$ with $p_1=p_2=p_3=0.5$')
+ax.legend()
+ax.legend(loc = "upper right")
 #ax.set_0lim([-0.02, 0.5])
 
 

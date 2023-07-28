@@ -285,7 +285,7 @@ int main(void) {
 //     fclose(average_ratio_file_v);
 
 // }
-// +++ Time Analysis: time development of the infection rate over N samples +++
+// +++ Time Analysis: time evolution of the infection rate over N samples +++
 {
 
     int L = 64;                                                                 // grid length
@@ -300,13 +300,12 @@ int main(void) {
         fprintf(ratio_over_time_file, ", %d", t);
     }
 
-    // caching the ratios for each sample to later calculate mean and standard deviation (array structure: 'N' samples in outer, 'T' timesteps in inner dimension)
+    // caching the ratios for each sample to later calculate mean and standard deviation (array structure: 'N' samples in inner, 'T' timesteps in outer virtual dimension)
     double *ratio_over_time_array = (double*) malloc(N * (T+1) * sizeof(double));
     if (ratio_over_time_array == NULL) {                                        // checking for memory availablity
         printf("ERROR! Memory is not available, please add more RAM.");
         return 1;
     }
-    double (*ratio_over_time_column_pointer)[T+1];                              // pointer to access each virtual column individually using the virtual row length 'T+1'
 
     // allocating zeroed memory for the quadratic grid L^2 including non-participating borders
     int *infectious_grid_t64 = (int*) calloc((L+2)*(L+2), sizeof(int));
@@ -317,33 +316,32 @@ int main(void) {
 
     // iterating over the 'N' samples
     for (int n = 0; n < N; n++) {
+        printf("Time Evolution: calculating ...\n");                            // progress bar for time evolution
         grid_init(infectious_grid_t64, L+2, probability_array_t64);
         double ratio_t64 = ratio_infected(infectious_grid_t64, L+2);            // caching the initial ratio for transfer into array and file
         fprintf(ratio_over_time_file, "\n%d, %g", n, ratio_t64);                // adding sample number 'n' and initial infection ratio to column one and two of the data file
-        ratio_over_time_array[n*N] = ratio_t64;                                 // adding initial infection rate of sample 'n' in the first column 
+        ratio_over_time_array[n] = ratio_t64;                                   // adding initial infection rate of sample 'n' in the first column 
 
         // iterating over 'T' timesteps updating grid, array and data file accordingly
         for (int t = 1; t < T+1; t++) {
             grid_update_stochastic(infectious_grid_t64, L+2, probability_array_t64);
             ratio_t64 = ratio_infected(infectious_grid_t64, L+2);               // caching the current ratio for transfer into array and file
             fprintf(ratio_over_time_file, ", %g", ratio_t64);                   // adding the current infection ratio to the data file
-            ratio_over_time_array[n*N + t] = ratio_t64;
+            ratio_over_time_array[t*N + n] = ratio_t64;
         }
     }
 
     // calculating mean and adding it to the file for each timestep
     fprintf(ratio_over_time_file, "\n00");                                      // first column of the mean row filled with dummy 00
     for (int t = 0; t < T+1; t++) {
-        ratio_over_time_column_pointer = (double (*)[T + 1]) &ratio_over_time_array[T+1];           // setting up the column pointer for each column / timestep
-        double mean_ratio_t64 = cvc_mean(ratio_over_time_column_pointer, N);    // call of the cvc-function to calculate the mean for each column using the appropriate column pointer
+        double mean_ratio_t64 = cvc_mean(&ratio_over_time_array[t*N], N);       // call of the cvc-function to calculate the mean for each time row
         fprintf(ratio_over_time_file, ", %g", mean_ratio_t64);                  // adding the mean for each timestep to the respective file row
     }
 
     // calculating standard deviation sigma and adding it to the file for each timestep
     fprintf(ratio_over_time_file, "\n01");                                      // first column of the sigma row filled with dummy 01
     for (int t = 0; t < T+1; t++) {
-        ratio_over_time_column_pointer = (double (*)[T + 1]) &ratio_over_time_array[T+1];           // setting up the column pointer for each column / timestep
-        double sigma_ratio_t64 = cvc_sigma(ratio_over_time_column_pointer, N);  // call of the cvc-function to calculate the standard deviation for each column
+        double sigma_ratio_t64 = cvc_sigma(&ratio_over_time_array[t*N], N);     // call of the cvc-function to calculate the standard deviation for each time row
         fprintf(ratio_over_time_file, ", %g", sigma_ratio_t64);                 // adding the standard deviation for each timestep to the respective file row
     }
 
