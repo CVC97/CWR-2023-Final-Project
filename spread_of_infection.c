@@ -40,7 +40,6 @@ void print_grid(int *grid, int length) {
 // initialize the given 'grid' of 'length' (L+2) with integers 0 (susceptible S), 1 (infected I), 2 (recovered R) and -1 (vaccinated V)
 void grid_init(int *grid, int length, double *probabilities) {
     double p4 = probabilities[3];                                                   // caching the probability of someone being initialized as V                                      
-
     // iterating through the grid ignoring the borders
     for (int row_i = 1; row_i < length-1; row_i++) {
         for (int column_j = 1; column_j < length-1; column_j++) {
@@ -61,16 +60,11 @@ void update_node(int *grid, int length, int row_i, int column_j, double *probabi
     double p1 = probabilities[0];
     double p2 = probabilities[1];
     double p3 = probabilities[2];
-
     int *node = &grid[row_i*length + column_j];                                     // caching the pointer on the selceted 'node' to change the grid in-place
     switch (*node) {                                                                // select for the state the selected person/node is in
-
-        // person is in state vaccinated V and will remain there
-        case -1:
+        case -1:                                                                    // person is in state vaccinated V and will remain there
             break;
-
-        // person is susceptible S and gets infected I with p1 for (at least) one infected neighbor
-        case 0:
+        case 0:                                                                     // person is susceptible S and gets infected I with p1 for (at least) one infected neighbor
             int north_node_state = grid[(row_i+1)*length + column_j];
             int south_node_state = grid[(row_i-1)*length + column_j];                                                 
             int east_node_state = grid[row_i*length + (column_j-1)];
@@ -80,16 +74,12 @@ void update_node(int *grid, int length, int row_i, int column_j, double *probabi
                 *node = 1;
             }
             break;
-
-        // person is infected I and turns recovered R with p2
-        case 1:                                   
+        case 1:                                                                     // person is infected I and turns recovered R with p2            
             if (random_uniform() < p2) {
                 *node = 2;
             }
             break;
-
-        // person is recovered R and return susceptible S with p3 
-        case 2:
+        case 2:                                                                     // person is recovered R and return susceptible S with p3
             if (random_uniform() < p3) {
                 *node = 0;
             }
@@ -149,142 +139,153 @@ double average_ratio_infected(int *grid, int length, int T, double *probabilitie
 int main(void) {
 
 // +++ Aufgabe 1: model for the spread of infectious diseases +++
-// {
+{
 
-//     double probability_array[4];                                                // array with the probabilities pi 
-//     int L;                                                                      // integer sidelegth 'L' of the squared grid of people
+    double probability_array[4];                                                // array with the probabilities pi 
+    int L;                                                                      // integer sidelegth 'L' of the squared grid of people
+    int updating_rule = 1;                                                      // character to save the updating rule (linear or stochastic)
 
-//     // input of the probablities 'pi' and the sidelength 'L' of the quadratic grid and saving the probabilities in the corresponding array
-//     printf("Enter p1 (susceptible -> infected): ");
-//     scanf("%lg", &probability_array[0]);                                        // probability 'p1' of a susceptible person getting infected (given an infected neighbor)
-//     printf("Enter p2 (infected -> recovered): ");
-//     scanf("%lg", &probability_array[1]);                                        // probability 'p2' of an infected person turning recovered 
-//     printf("Enter p3 (recovered -> susceptible): ");
-//     scanf("%lg", &probability_array[2]);                                        // probability 'p3' of a recovered person returning susceptible
-//     probability_array[3] = 0;                                                   // no vaccinated people V
-//     printf("Enter size of grid L: ");
-//     scanf("%d", &L);                                                            // integer sidelegth 'L' of the squared grid of people
+    // input of the probablities 'pi' and the sidelength 'L' of the quadratic grid and saving the probabilities in the corresponding array
+    printf("Enter p1 (susceptible -> infected): ");
+    scanf("%lg", &probability_array[0]);                                        // probability 'p1' of a susceptible person getting infected (given an infected neighbor)
+    printf("Enter p2 (infected -> recovered): ");
+    scanf("%lg", &probability_array[1]);                                        // probability 'p2' of an infected person turning recovered 
+    printf("Enter p3 (recovered -> susceptible): ");
+    scanf("%lg", &probability_array[2]);                                        // probability 'p3' of a recovered person returning susceptible
+    probability_array[3] = 0;                                                   // no vaccinated people V
+    printf("Enter size of grid L: ");
+    scanf("%d", &L);                                                            // integer sidelegth 'L' of the squared grid of people
+    printf("Chose updating rule (type '0' for updating all grid points in order, '1' [default] for chosing L^2 grind points randomly): ");
+    scanf("%d", &updating_rule);                                                // set updating rule for the grid
 
-//     // allocating zeroed memory for the quadratic grid L^2 including non-participating borders and operating on the grid
-//     int *infectious_grid = (int*) calloc((L+2)*(L+2), sizeof(int));
-//     if (infectious_grid == NULL) {                                              // checking for memory availablity
-//         printf("ERROR! Memory is not available, please add more RAM.");
-//         return 1;
-//     }
-//     grid_init(infectious_grid, L+2, probability_array);
-//     print_grid(infectious_grid, L+2);
-//     printf("\nPress 'ENTER' to update grid for the new timestep. Enter 'q' to quit and continue.");
-//     while (getchar() != '\n');
+    // allocating zeroed memory for the quadratic grid L^2 including non-participating borders and operating on the grid
+    int *infectious_grid = (int*) calloc((L+2)*(L+2), sizeof(int));
+    if (infectious_grid == NULL) {                                              // checking for memory availablity
+        printf("ERROR! Memory is not available, please add more RAM.");
+        return 1;
+    }
+    grid_init(infectious_grid, L+2, probability_array);
+    print_grid(infectious_grid, L+2);
+    if (updating_rule == 0) {
+        printf("\nUpdater 'linear'. Press 'ENTER' to update grid for the new timestep. Enter 'q' to quit and continue.");
+    } else {
+        printf("\nUpdater 'stochastic'. Press 'ENTER' to update grid for the new timestep. Enter 'q' to quit and continue.");
+    }
+    while (getchar() != '\n');
 
-//     // update grid manually for one timestep
-//     char c;                                                                     // input variable c
-//     while ((c = getchar()) != EOF ) {
-//         if (c == '\n') {                                                        // confirm input with 'ENTER' and act accordingly to the previously last valid input
-//             grid_update_linear(infectious_grid, L+2, probability_array);
-//             print_grid(infectious_grid, L+2);
-//         } else if (c == 'q') {                                                  // quit and continue with further code
-//             break;
-//         }
-//     }
-//     free(infectious_grid);
+    // update grid manually for one timestep
+    char c;                                                                     // input variable c
+    while ((c = getchar()) != EOF ) {
+        if (c == '\n') {                                                        // confirm input with 'ENTER' and update the grid according to the saved updating rule
+            if (updating_rule == 0) {
+                grid_update_linear(infectious_grid, L+2, probability_array);
+            } else {
+                grid_update_stochastic(infectious_grid, L+2, probability_array);
+            }
+            print_grid(infectious_grid, L+2);
+        } else if (c == 'q') {                                                  // quit and continue with further code
+            break;
+        }
+    }
+    free(infectious_grid);
 
-// }
+}
 // +++ Aufgabe 2: time-averaged infection rate depending on the turnover rate 'p1' from susceptible to infected +++ 
-// {
+{
 
-//     int T = 1000;                                                               // number 'T' of simulation steps
+    int T = 1000;                                                               // number 'T' of simulation steps
 
-//     // setting up the files a, b and c for the various combinations of p2 and p3 with their first row p1 values and 00 as dummies for the top left csv entries
-//     FILE* average_ratio_file_a = fopen("soi_data/soi_average_ratio_infected_over_p1_a.csv", "w");
-//     FILE* average_ratio_file_b = fopen("soi_data/soi_average_ratio_infected_over_p1_b.csv", "w");
-//     FILE* average_ratio_file_c = fopen("soi_data/soi_average_ratio_infected_over_p1_c.csv", "w");
-//     fprintf(average_ratio_file_a, "00");
-//     fprintf(average_ratio_file_b, "00");
-//     fprintf(average_ratio_file_c, "00");
-//     for (double p1 = 0; p1 <= 1; p1 += 0.02) {
-//         fprintf(average_ratio_file_a, ", %g", p1);
-//         fprintf(average_ratio_file_b, ", %g", p1);
-//         fprintf(average_ratio_file_c, ", %g", p1);
-//     }
+    // setting up the files a, b and c for the various combinations of p2 and p3 with their first row p1 values and 00 as dummies for the top left csv entries
+    FILE* average_ratio_file_a = fopen("soi_data/soi_average_ratio_infected_over_p1_a.csv", "w");
+    FILE* average_ratio_file_b = fopen("soi_data/soi_average_ratio_infected_over_p1_b.csv", "w");
+    FILE* average_ratio_file_c = fopen("soi_data/soi_average_ratio_infected_over_p1_c.csv", "w");
+    fprintf(average_ratio_file_a, "00");
+    fprintf(average_ratio_file_b, "00");
+    fprintf(average_ratio_file_c, "00");
+    for (double p1 = 0; p1 <= 1; p1 += 0.02) {
+        fprintf(average_ratio_file_a, ", %g", p1);
+        fprintf(average_ratio_file_b, ", %g", p1);
+        fprintf(average_ratio_file_c, ", %g", p1);
+    }
 
-//     // iteration over 'L' (32, 64, 196) to receive the time-averaged ratio of infected people in the grid depending on 'p1' for each 'L' and different combinations of p2 and p3 
-//     for (int L = 32; L <= 96; L += 32) {
-//         printf("A2: calculating L = %d ...\n", L);                              // progress bar for A2
+    // iteration over 'L' (32, 64, 196) to receive the time-averaged ratio of infected people in the grid depending on 'p1' for each 'L' and different combinations of p2 and p3 
+    for (int L = 32; L <= 96; L += 32) {
+        printf("A2: calculating L = %d ...\n", L);                              // progress bar for A2
 
-//         // setting up the rows with each 'L' in the files
-//         fprintf(average_ratio_file_a, "\n%d", L);
-//         fprintf(average_ratio_file_b, "\n%d", L);
-//         fprintf(average_ratio_file_c, "\n%d", L);
+        // setting up the rows with each 'L' in the files
+        fprintf(average_ratio_file_a, "\n%d", L);
+        fprintf(average_ratio_file_b, "\n%d", L);
+        fprintf(average_ratio_file_c, "\n%d", L);
 
-//         // allocating memory for grid a, b and c
-//         int *infectious_grid_a = (int*) calloc((L+2)*(L+2), sizeof(int));
-//         int *infectious_grid_b = (int*) calloc((L+2)*(L+2), sizeof(int));
-//         int *infectious_grid_c = (int*) calloc((L+2)*(L+2), sizeof(int));
-//         if (infectious_grid_a == NULL || infectious_grid_b == NULL || infectious_grid_c == NULL) {
-//             printf("ERROR! Memory is not available, please add more RAM.");
-//             return 1;
-//         }
+        // allocating memory for grid a, b and c
+        int *infectious_grid_a = (int*) calloc((L+2)*(L+2), sizeof(int));
+        int *infectious_grid_b = (int*) calloc((L+2)*(L+2), sizeof(int));
+        int *infectious_grid_c = (int*) calloc((L+2)*(L+2), sizeof(int));
+        if (infectious_grid_a == NULL || infectious_grid_b == NULL || infectious_grid_c == NULL) {
+            printf("ERROR! Memory is not available, please add more RAM.");
+            return 1;
+        }
 
-//         // iteration over 'p1' for the main dependency
-//         for (double p1 = 0; p1 <= 1; p1 += 0.02) {
-//             double probability_array_a[4] = {p1, 0.3, 0.3, 0};                  // probability array for a: 'p2' = 0.3 and 'p3' = 0.3
-//             double probability_array_b[4] = {p1, 0.6, 0.3, 0};                  // probability array for b: 'p2' = 0.6 and 'p3' = 0.3
-//             double probability_array_c[4] = {p1, 0.3, 0.6, 0};                  // probability array for c: 'p2' = 0.3 and 'p3' = 0.6
+        // iteration over 'p1' for the main dependency
+        for (double p1 = 0; p1 <= 1; p1 += 0.02) {
+            double probability_array_a[4] = {p1, 0.3, 0.3, 0};                  // probability array for a: 'p2' = 0.3 and 'p3' = 0.3
+            double probability_array_b[4] = {p1, 0.6, 0.3, 0};                  // probability array for b: 'p2' = 0.6 and 'p3' = 0.3
+            double probability_array_c[4] = {p1, 0.3, 0.6, 0};                  // probability array for c: 'p2' = 0.3 and 'p3' = 0.6
 
-//             // initializing the grids a, b and c 
-//             grid_init(infectious_grid_a, L+2, probability_array_a);
-//             grid_init(infectious_grid_b, L+2, probability_array_b);
-//             grid_init(infectious_grid_c, L+2, probability_array_c);
+            // initializing the grids a, b and c 
+            grid_init(infectious_grid_a, L+2, probability_array_a);
+            grid_init(infectious_grid_b, L+2, probability_array_b);
+            grid_init(infectious_grid_c, L+2, probability_array_c);
 
-//             // caching the time-averaged ratio for later output in file form
-//             double avg_ratio_a = average_ratio_infected(infectious_grid_a, L+2, T, probability_array_a);
-//             double avg_ratio_b = average_ratio_infected(infectious_grid_b, L+2, T, probability_array_b);
-//             double avg_ratio_c = average_ratio_infected(infectious_grid_c, L+2, T, probability_array_c);
+            // caching the time-averaged ratio for later output in file form
+            double avg_ratio_a = average_ratio_infected(infectious_grid_a, L+2, T, probability_array_a);
+            double avg_ratio_b = average_ratio_infected(infectious_grid_b, L+2, T, probability_array_b);
+            double avg_ratio_c = average_ratio_infected(infectious_grid_c, L+2, T, probability_array_c);
 
-//             // writing the time-averaged ratios for each 'p1' in each of the files a, b and c
-//             fprintf(average_ratio_file_a, ", %g", avg_ratio_a);
-//             fprintf(average_ratio_file_b, ", %g", avg_ratio_b);
-//             fprintf(average_ratio_file_c, ", %g", avg_ratio_c);
-//         }
-//         free(infectious_grid_a);
-//         free(infectious_grid_b);
-//         free(infectious_grid_c);
-//     }
-//     fclose(average_ratio_file_a);
-//     fclose(average_ratio_file_b);
-//     fclose(average_ratio_file_c);
+            // writing the time-averaged ratios for each 'p1' in each of the files a, b and c
+            fprintf(average_ratio_file_a, ", %g", avg_ratio_a);
+            fprintf(average_ratio_file_b, ", %g", avg_ratio_b);
+            fprintf(average_ratio_file_c, ", %g", avg_ratio_c);
+        }
+        free(infectious_grid_a);
+        free(infectious_grid_b);
+        free(infectious_grid_c);
+    }
+    fclose(average_ratio_file_a);
+    fclose(average_ratio_file_b);
+    fclose(average_ratio_file_c);
 
-// }
+}
 // +++ Aufgabe 3: time-average of the infection rate depending on the rate of vaccinated, non-reactive people in the model 'p4' +++ 
-// {
+{
 
-//     int T = 1000;                                                               // number 'T' of simulation steps
+    int T = 1000;                                                               // number 'T' of simulation steps
 
-//     // setting up the file for the time-averaged infection rate with respect to time over 'p4' with its first line
-//     FILE* average_ratio_file_v = fopen("soi_data/soi_average_ratio_infected_over_p4_v.csv", "w");
-//     fprintf(average_ratio_file_v, "00");                                        // using dummy 00 to fill the top left entry of the csv
-//     for (double p4 = 0; p4 <= 1; p4 += 0.02) {
-//         fprintf(average_ratio_file_v, ", %g", p4);
-//     }
+    // setting up the file for the time-averaged infection rate with respect to time over 'p4' with its first line
+    FILE* average_ratio_file_v = fopen("soi_data/soi_average_ratio_infected_over_p4_v.csv", "w");
+    fprintf(average_ratio_file_v, "00");                                        // using dummy 00 to fill the top left entry of the csv
+    for (double p4 = 0; p4 <= 1; p4 += 0.02) {
+        fprintf(average_ratio_file_v, ", %g", p4);
+    }
 
-//     // iteration over 'L' (32, 64, 96) to receive the average ratio of infected people for variable rates of vaccinated people 'p4'
-//     for (int L = 32; L <= 96; L += 32) {
-//         printf("A3: calculating L = %d ...\n", L);                              // progress bar for A3
-//         fprintf(average_ratio_file_v, "\n%d", L);                               // setting up each row with its respective 'L' in the first column
-//         int *infectious_grid_v = (int*) calloc((L+2)*(L+2), sizeof(int));       // allocating memory for the respective grid containing vaccinated individuals
+    // iteration over 'L' (32, 64, 96) to receive the average ratio of infected people for variable rates of vaccinated people 'p4'
+    for (int L = 32; L <= 96; L += 32) {
+        printf("A3: calculating L = %d ...\n", L);                              // progress bar for A3
+        fprintf(average_ratio_file_v, "\n%d", L);                               // setting up each row with its respective 'L' in the first column
+        int *infectious_grid_v = (int*) calloc((L+2)*(L+2), sizeof(int));       // allocating memory for the respective grid containing vaccinated individuals
 
-//         // iteration over 'p4' as the main dependency
-//         for (double p4 = 0; p4 <= 1; p4 += 0.02) {
-//             double probability_array_v[4] = {0.5, 0.5, 0.5, p4};                // probability array with 'p1' = 'p2' = 'p3' = 0.5 and variable 'p4'
-//             grid_init(infectious_grid_v, L+2, probability_array_v);             // initializing the vaccinated grid with its respective probability array
-//             double avg_ratio_v = average_ratio_infected(infectious_grid_v, L+2, T, probability_array_v);
-//             fprintf(average_ratio_file_v, ", %g", avg_ratio_v);                 // transfering the ratios into the data file
-//         }
-//         free(infectious_grid_v);
-//     }
-//     fclose(average_ratio_file_v);
+        // iteration over 'p4' as the main dependency
+        for (double p4 = 0; p4 <= 1; p4 += 0.02) {
+            double probability_array_v[4] = {0.5, 0.5, 0.5, p4};                // probability array with 'p1' = 'p2' = 'p3' = 0.5 and variable 'p4'
+            grid_init(infectious_grid_v, L+2, probability_array_v);             // initializing the vaccinated grid with its respective probability array
+            double avg_ratio_v = average_ratio_infected(infectious_grid_v, L+2, T, probability_array_v);
+            fprintf(average_ratio_file_v, ", %g", avg_ratio_v);                 // transfering the ratios into the data file
+        }
+        free(infectious_grid_v);
+    }
+    fclose(average_ratio_file_v);
 
-// }
+}
 // +++ Time Analysis: time evolution of the infection rate over N samples +++
 {
 
@@ -306,6 +307,7 @@ int main(void) {
         printf("ERROR! Memory is not available, please add more RAM.");
         return 1;
     }
+    printf("Time Evolution of the Infection Rate: calculating ...\n");          // progress bar for time evolution
 
     // allocating zeroed memory for the quadratic grid L^2 including non-participating borders
     int *infectious_grid_t64 = (int*) calloc((L+2)*(L+2), sizeof(int));
@@ -316,7 +318,6 @@ int main(void) {
 
     // iterating over the 'N' samples
     for (int n = 0; n < N; n++) {
-        printf("Time Evolution: calculating ...\n");                            // progress bar for time evolution
         grid_init(infectious_grid_t64, L+2, probability_array_t64);
         double ratio_t64 = ratio_infected(infectious_grid_t64, L+2);            // caching the initial ratio for transfer into array and file
         fprintf(ratio_over_time_file, "\n%d, %g", n, ratio_t64);                // adding sample number 'n' and initial infection ratio to column one and two of the data file
@@ -351,10 +352,76 @@ int main(void) {
     fclose(ratio_over_time_file);
 
 }
-// +++ Supplementary Data Generation: time development of the grid +++
+// +++ Supplementary Data Generation: time development of the grid itself and three different probability variants +++
 {
+    
+    int L = 96;                                                                 // grid length
+    int T = 1000;                                                               // number 'T' of simulation steps
 
-    int T = 1000;
+    // allocating memory for three grids a, b and c
+    int *infectious_grid_t96_a = (int*) calloc((L+2)*(L+2), sizeof(int));
+    int *infectious_grid_t96_b = (int*) calloc((L+2)*(L+2), sizeof(int));
+    int *infectious_grid_t96_c = (int*) calloc((L+2)*(L+2), sizeof(int));
+    if (infectious_grid_t96_a == NULL || infectious_grid_t96_b == NULL || infectious_grid_t96_c == NULL) {
+        printf("ERROR! Memory is not available, please add more RAM.");
+        return 1;
+    }
+    printf("Time Evolution of the Grid: calculating ...\n");                    // progress bar for time evolution
+
+    // initializing the three probability arrays
+    double probability_array_t96_a[4] = {0.5, 0.5, 0.5, 0};                     // probability array for a: 'p1' = 'p2' = 'p3' = 0.5, no vaccination rate
+    double probability_array_t96_b[4] = {0.75, 0.25, 0.75, 0};                  // probability array b: high turnover rates for infections and susceptibility with low probability to recover
+    double probability_array_t96_c[4] = {0.75, 0.25, 0.75, 0.25};               // probability array c: same as b with vaccination rate of 'p4' = 0.25 
+
+    // initializing the grids using the above probabilities
+    grid_init(infectious_grid_t96_a, L+2, probability_array_t96_a);
+    grid_init(infectious_grid_t96_b, L+2, probability_array_t96_b);
+    grid_init(infectious_grid_t96_c, L+2, probability_array_t96_c);  
+
+    // setting up the files a, b and c for the different probability arrays and writing the initial timestep 0 in the first column of the first row
+    FILE* grid_file_a = fopen("soi_animations/soi_grid_over_time_a.csv", "w");
+    FILE* grid_file_b = fopen("soi_animations/soi_grid_over_time_b.csv", "w");
+    FILE* grid_file_c = fopen("soi_animations/soi_grid_over_time_c.csv", "w");
+    fprintf(grid_file_a, "0");
+    fprintf(grid_file_b, "0");
+    fprintf(grid_file_c, "0");
+
+    // iterating through the grid ignoring the borders to fill the files fist row with the initial grid data (the 1D structure of the grid resembles the one on the RAM dimension wise)
+    for (int row_i = 1; row_i < L+1; row_i++) {
+        for (int column_j = 1; column_j < L+1; column_j++) {
+            fprintf(grid_file_a, ", %d", infectious_grid_t96_a[row_i*(L+2) + column_j]);
+            fprintf(grid_file_b, ", %d", infectious_grid_t96_b[row_i*(L+2) + column_j]);
+            fprintf(grid_file_c, ", %d", infectious_grid_t96_c[row_i*(L+2) + column_j]);
+        }
+    }
+
+    // iterating over T timesteps
+    for (int t = 1; t <= T; t++) {
+        // adding timestep t to the files first column
+        fprintf(grid_file_a, "\n%d", t);
+        fprintf(grid_file_b, "\n%d", t);
+        fprintf(grid_file_c, "\n%d", t);
+
+        // updating the three grids according to the probability array
+        grid_update_stochastic(infectious_grid_t96_a, L+2, probability_array_t96_a);
+        grid_update_stochastic(infectious_grid_t96_b, L+2, probability_array_t96_b);
+        grid_update_stochastic(infectious_grid_t96_c, L+2, probability_array_t96_c);
+
+        // iterating through the grid adding its data for timestep t
+        for (int row_i = 1; row_i < L+1; row_i++) {
+            for (int column_j = 1; column_j < L+1; column_j++) {
+                fprintf(grid_file_a, ", %d", infectious_grid_t96_a[row_i*(L+2) + column_j]);
+                fprintf(grid_file_b, ", %d", infectious_grid_t96_b[row_i*(L+2) + column_j]);
+                fprintf(grid_file_c, ", %d", infectious_grid_t96_c[row_i*(L+2) + column_j]);
+            }
+        }
+    }
+    free(infectious_grid_t96_a);
+    free(infectious_grid_t96_b);
+    free(infectious_grid_t96_c);
+    fclose(grid_file_a);
+    fclose(grid_file_b);
+    fclose(grid_file_c);
 
 }
     return 0;
