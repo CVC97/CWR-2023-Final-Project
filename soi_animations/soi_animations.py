@@ -1,0 +1,97 @@
+from manim import *
+
+
+# global grid parameters
+GRID_CENTER = np.array([-3, -0.5, 0])
+GRID_SIDE_LENGTH = 5.5
+GRID_L = 96
+GRID_NODE_DIST = GRID_SIDE_LENGTH / (GRID_L + 1)
+
+
+# data processing
+soi_grid_over_time_data_a = np.loadtxt("soi_grid_over_time_a.csv", delimiter = ",", skiprows = 0)
+soi_grid_over_time_data_b = np.loadtxt("soi_grid_over_time_b.csv", delimiter = ",", skiprows = 0)
+soi_grid_over_time_data_c = np.loadtxt("soi_grid_over_time_c.csv", delimiter = ",", skiprows = 0)
+
+# reshape data array (dim 0: time, dim 1: rows, dim 2: columns) and remove time column 1
+time_array = soi_grid_over_time_data_b[:,0]
+soi_grid_over_time_array_a = np.reshape(soi_grid_over_time_data_a[:,1:], (1001, GRID_L, GRID_L))
+soi_grid_over_time_array_b = np.reshape(soi_grid_over_time_data_b[:,1:], (1001, GRID_L, GRID_L))
+soi_grid_over_time_array_c = np.reshape(soi_grid_over_time_data_c[:,1:], (1001, GRID_L, GRID_L))
+print(np.shape(soi_grid_over_time_array_a))
+
+
+
+# get grid coordinates for given row i and column j
+def get_grid_coordinates(i_row, j_colum):
+    grid_top_left_node = GRID_CENTER + np.array([-GRID_SIDE_LENGTH / 2 + GRID_NODE_DIST, GRID_SIDE_LENGTH / 2 - GRID_NODE_DIST, 0])
+    return grid_top_left_node + np.array([j_colum, -i_row, 0])  * GRID_NODE_DIST
+
+
+# main scene
+class soi_main_scene(Scene):
+    def construct(self):
+        CVC = Text('CVC', font_size = 12, weight = BOLD, color = WHITE, font = 'Latin Modern Sans').align_on_border(RIGHT + DOWN, buff = 0.2)
+        self.add(CVC)
+
+        # headline
+        headline = Tex(r"Model for the spread of infectious diseases", font_size = 48).align_on_border(UP + LEFT, buff = 0.5).shift(0.5 * RIGHT)
+
+        # legend
+        square_susceptible = Square(color = WHITE, fill_opacity = 0.5, side_length = 0.3, stroke_width = 1).move_to([2, 2.1, 0])
+        square_infected = Square(color = RED, fill_opacity = 0.5, side_length = 0.3, stroke_width = 1).move_to([2, 1.35, 0])
+        square_recovered = Square(color = BLUE, fill_opacity = 0.5, side_length = 0.3, stroke_width = 1).move_to([2, 0.6, 0])
+        square_vaccinated = Square(color = GREY, side_length = 0.3, stroke_width = 1).move_to([2, -0.15, 0])
+        cross_vaccinated = Cross(stroke_color = GREY, stroke_width = 1, scale_factor = 0.15).move_to([2, -0.15, 0])
+
+        text_susceptible = Tex(r"Susceptible $\textit{S}$", font_size = 36).next_to(square_susceptible, direction = RIGHT)
+        text_infected = Tex(r"Infected $\textit{I}$", font_size = 36, color = RED).next_to(square_infected, direction = RIGHT)
+        text_recovered = Tex(r"Recovered $\textit{R}$", font_size = 36, color = BLUE).next_to(square_recovered, direction = RIGHT)
+        text_vaccinated = Tex(r"Vaccinated $\textit{V}$", font_size = 36, color = GREY).next_to(square_vaccinated, direction = RIGHT)
+
+        text_p1 = Tex(r"$p_1(S\rightarrow I)=0.5$", font_size = 20).next_to([2.25, -1.3, 0])
+        text_p2 = Tex(r"$p_2(I\rightarrow R)=0.5$", font_size = 20).next_to([2.25, -1.8, 0])
+        text_p3 = Tex(r"$p_3(R\rightarrow S)=0.5$", font_size = 20).next_to([2.25, -2.3, 0])
+        text_p4 = Tex(r"$p_4(V)=0$", font_size = 20).next_to([2.25, -2.8, 0])
+        # text_p1[0][5].set_color(RED)
+        # text_p2[0][3].set_color(RED)
+        # text_p2[0][5].set_color(BLUE)
+        # text_p3[0][3].set_color(BLUE)
+        # text_p4[0][3].set_color(GREY)
+        rectange_probabilities = Rectangle(color = WHITE, height = 2.5, width = 3.75, stroke_width = 1).move_to([3.5, -2, 0])
+        text_probabilities = Tex(r"probabilities", color = WHITE, font_size = 18).move_to([2.3, -0.95, 0])
+
+        # main infection grid
+        main_grid = Square(color = WHITE, side_length = GRID_SIDE_LENGTH, stroke_width = 0.5).move_to(GRID_CENTER)
+        main_L = Tex(r"$L=96$", color = WHITE, font_size = 24).move_to([-5, 2.45, 0])
+        main_T = Tex(r"$t=10$", color = WHITE, font_size = 24).move_to([-1, 2.45, 0])
+
+        # adding objects
+        self.add(headline)
+        self.add(square_susceptible, square_infected, square_recovered, square_vaccinated, cross_vaccinated)
+        self.add(text_susceptible, text_infected, text_recovered, text_vaccinated)
+        self.add(text_p1, text_p2, text_p3, text_p4, rectange_probabilities, text_probabilities)
+        self.add(main_L, main_T)
+
+        # gridmaker for given 3D array and time t
+        def make_grid_from_array(grid_array, t):
+            grid_total_group = VGroup()
+            for i_row in range(96):
+                for j_column in range(96):
+                    node_status = grid_array[t, i_row, j_column]
+                    node_position = get_grid_coordinates(i_row, j_column)
+                    if node_status == -1:
+                        grid_node = Square(color = GREY, fill_opacity = 0.5, side_length = GRID_NODE_DIST, stroke_width = 1).move_to(node_position)
+                        grid_node_cross = Cross(stroke_color = GREY, stroke_width = 1, scale_factor = GRID_NODE_DIST / 2).move_to(node_position)
+                        grid_total_group.add(grid_node, grid_node_cross)
+                    elif node_status == 0:
+                        grid_node = Square(color = WHITE, fill_opacity = 0.5, side_length = GRID_NODE_DIST, stroke_width = 1).move_to(node_position)
+                        grid_total_group.add(grid_node)                  
+                    elif node_status == 1:
+                        grid_node = Square(color = RED, fill_opacity = 0.5, side_length = GRID_NODE_DIST, stroke_width = 1).move_to(node_position)
+                        grid_total_group.add(grid_node)
+                    elif node_status == 2:
+                        grid_node = Square(color = BLUE, fill_opacity = 0.5, side_length = GRID_NODE_DIST, stroke_width = 1).move_to(node_position)
+                        grid_total_group.add(grid_node)
+
+        self.play(Create(grid_total_group), run_time = 5)

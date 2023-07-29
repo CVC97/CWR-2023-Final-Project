@@ -27,10 +27,12 @@ run: $(BINARY)
 	./$< $(ARGS)
 
 
-# plot
+# plot and animate
 plot: 
 	cd soi_data && python3 soi_plotting.py 
 
+animate:
+	cd soi_animations && manim -pqh --fps 60 soi_animations.py soi_main_scene
 
 # compile and move PDF to main folder without (make pdf) or with (make bib) renewing bibliography
 pdf:
