@@ -3,13 +3,15 @@
 !*/
 !.gitignore
 !makefile
+soi_animations/__pycache__
+soi_animations/media
 
 
 # unignore Tex-File
-!*.tex
-!*.cls
-!*.sty
-!*.bib
+!soi_pdf/*.tex
+!soi_pdf/*.cls
+!soi_pdf/*.sty
+!soi_pdf/*.bib
 
 !spread_of_infection.pdf
 
