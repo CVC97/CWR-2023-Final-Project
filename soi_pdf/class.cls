@@ -8,3 +8,9 @@
 
 \newcommand{\pmnum}[3]{\ensuremath{({#1}\,\pm\,{#2})\,\si{#3}}}
 \newcommand{\BVec}[1]{\boldsymbol{\mathrm{#1}}}
+
+% state of the grid nodes
+\newcommand{\susceptible}{\textit{S}}
+\newcommand{\infected}{\textit{I}}
+\newcommand{\recovered}{\textit{R}}
+\newcommand{\vaccinated}{\textit{V}}

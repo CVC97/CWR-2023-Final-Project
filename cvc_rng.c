@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <math.h>
+#include <tgmath.h>
 #include <time.h>
 #include <gsl/gsl_histogram.h>
 #include <gsl/gsl_rng.h>
@@ -91,7 +91,7 @@ void cvc_eulerMaruyama_step(double t, double delta_t, double y[], cvc_sde_func f
     double *g = (double*) malloc(sizeof(double) * cvc_npow(dimension, 2));
     double *w = (double*) malloc(sizeof(double) * dimension); 
     func(t, y, f, g, params);                                       // Berechnung f und g-Arrays
-    static gsl_rng* generator = NULL;
+    static gsl_rng* generator = NULL;                               // statischer Zufallsgenerator
     if (generator == NULL) {
         generator = gsl_rng_alloc(gsl_rng_mt19937);                 // Wahl des Zufallsgenerators: gsl_rng_mt19937
         gsl_rng_set(generator, time(NULL));                      

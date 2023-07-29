@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include <tgmath.h>
 #include <time.h>
 #include <gsl/gsl_rng.h>
 #include "cvc_numerics.h"
 #include "cvc_rng.h"
 
 
-// generate uniforms using static Mersenne-Twister MT19937 to reduce parameters
+// statically implemented peseurandom number generator Mersenne-Twister MT19937
 double random_uniform(void) {
     static gsl_rng* generator = NULL;                                               // initializing the static rng variable
     if (generator == NULL) {                                                        // initializing MT19937 as rng at the first function call 
@@ -192,7 +192,7 @@ int main(void) {
 }
 // +++ Aufgabe 2: time-averaged infection rate depending on the turnover rate 'p1' from susceptible to infected +++ 
 {
-
+    
     int T = 1000;                                                               // number 'T' of simulation steps
 
     // setting up the files a, b and c for the various combinations of p2 and p3 with their first row p1 values and 00 as dummies for the top left csv entries
@@ -210,7 +210,7 @@ int main(void) {
 
     // iteration over 'L' (32, 64, 196) to receive the time-averaged ratio of infected people in the grid depending on 'p1' for each 'L' and different combinations of p2 and p3 
     for (int L = 32; L <= 96; L += 32) {
-        printf("A2: calculating L = %d ...\n", L);                              // progress bar for A2
+        printf("A2 (~77 sec total): calculating L = %d ...\n", L);              // progress bar for A2
 
         // setting up the rows with each 'L' in the files
         fprintf(average_ratio_file_a, "\n%d", L);
@@ -270,7 +270,7 @@ int main(void) {
 
     // iteration over 'L' (32, 64, 96) to receive the average ratio of infected people for variable rates of vaccinated people 'p4'
     for (int L = 32; L <= 96; L += 32) {
-        printf("A3: calculating L = %d ...\n", L);                              // progress bar for A3
+        printf("A3 (~20 sec total): calculating L = %d ...\n", L);                              // progress bar for A3
         fprintf(average_ratio_file_v, "\n%d", L);                               // setting up each row with its respective 'L' in the first column
         int *infectious_grid_v = (int*) calloc((L+2)*(L+2), sizeof(int));       // allocating memory for the respective grid containing vaccinated individuals
 
@@ -307,7 +307,6 @@ int main(void) {
         printf("ERROR! Memory is not available, please add more RAM.");
         return 1;
     }
-    printf("Time Evolution of the Infection Rate: calculating ...\n");          // progress bar for time evolution
 
     // allocating zeroed memory for the quadratic grid L^2 including non-participating borders
     int *infectious_grid_t64 = (int*) calloc((L+2)*(L+2), sizeof(int));
@@ -315,6 +314,7 @@ int main(void) {
         printf("ERROR! Memory is not available, please add more RAM.");
         return 1;
     }
+    printf("Time Evolution Infection Rate (~4 sec total): calculating ...\n");  // progress bar for time evolution
 
     // iterating over the 'N' samples
     for (int n = 0; n < N; n++) {
@@ -366,7 +366,7 @@ int main(void) {
         printf("ERROR! Memory is not available, please add more RAM.");
         return 1;
     }
-    printf("Time Evolution of the Grid: calculating ...\n");                    // progress bar for time evolution
+    printf("Time Evolution Grid (~2 sec total): calculating ...\n");            // progress bar for time evolution
 
     // initializing the three probability arrays
     double probability_array_t96_a[4] = {0.5, 0.5, 0.5, 0};                     // probability array for a: 'p1' = 'p2' = 'p3' = 0.5, no vaccination rate

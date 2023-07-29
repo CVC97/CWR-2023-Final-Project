@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <math.h>
+#include <tgmath.h>
 
 
 #define cvc_PI 3.14159265358979323846

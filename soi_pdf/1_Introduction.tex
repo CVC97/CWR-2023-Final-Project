@@ -1,3 +1,18 @@
 \section{Introduction}
 
-\subsection{Infectious Disease Modelling}
+% \subsection{Infectious Disease Modelling}
+
+This model uses a quadratic grid of size $L\times L$ to examine the spread of an infectious agent. Each grid node is occupied by an immobile person and can be in one of the states
+Susceptible \susceptible{}, Infected \infected{} or Recovered \recovered{}. Later, the forth state Vaccinated \vaccinated{} is introduced, that permanently excludes the respective people from taking any of the three other states. For a person 
+in one of the three active states \susceptible{}, \infected{} and \recovered{}, the following three transitions are possible,
+\begin{equation*}
+    \mathrm{Susceptible}~\susceptible\xlongrightarrow{p_1}\mathrm{Infected}~\infected{}\xlongrightarrow{p_2}\mathrm{Recovered}~\recovered{}\xlongrightarrow{p_3}\mathrm{Susceptible}~\susceptible{}.
+\end{equation*}
+With that, we have the three transition probabilities $p_1$, $p_2$ and $p_3$:
+\begin{itemize}
+    \item $p_1$: a susceptible person getting infected by a direct infected neighbor
+    \item $p_2$: an infected person turning recovered
+    \item $p_3$: a recovered person returning susceptible
+\end{itemize}
+Vaccinated people \vaccinated{} are set at the beginning of the simulation, with $p_4$ being the probability that a spot is occupied by one. The other three states are initializes with the same likelyhood. Each simulation step does
+now
