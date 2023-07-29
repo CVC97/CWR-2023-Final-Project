@@ -1,22 +1,26 @@
 # ignore everything but folders
 *
 !*/
+
 !.gitignore
 !makefile
-soi_animations/__pycache__
-soi_animations/media
 
 
-# unignore Tex-File
+# unignore pdf files
 !soi_pdf/*.tex
 !soi_pdf/*.cls
 !soi_pdf/*.sty
 !soi_pdf/*.bib
 
+# specifically ignore animation files
+soi_animations/__pycache__
+soi_animations/media
+
+# specifically unignore the main pdf
 !spread_of_infection.pdf
 
 
-# unignore
+# general unignore
 !*.c
 !*.h
 !*.py
