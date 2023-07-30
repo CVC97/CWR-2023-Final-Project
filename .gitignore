@@ -28,3 +28,4 @@ soi_animations/media
 !*.h
 !*.py
 !*.ipynb
+!*.csv
