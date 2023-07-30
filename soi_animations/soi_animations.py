@@ -7,6 +7,13 @@ GRID_SIDE_LENGTH = 5.5
 GRID_L = 96
 GRID_NODE_DIST = GRID_SIDE_LENGTH / (GRID_L + 1)
 
+
+# get grid coordinates for given row i and column j
+def get_grid_coordinates(i_row, j_colum):
+    grid_top_left_node = GRID_CENTER + np.array([-GRID_SIDE_LENGTH / 2 + GRID_NODE_DIST, GRID_SIDE_LENGTH / 2 - GRID_NODE_DIST, 0])
+    return grid_top_left_node + np.array([j_colum, -i_row, 0])  * GRID_NODE_DIST
+
+
 # data processing
 soi_grid_over_time_data_a = np.loadtxt("soi_grid_over_time_a.csv", delimiter = ",", skiprows = 0)
 soi_grid_over_time_data_b = np.loadtxt("soi_grid_over_time_b.csv", delimiter = ",", skiprows = 0)
@@ -17,11 +24,6 @@ time_array = soi_grid_over_time_data_b[:,0]
 soi_grid_over_time_array_a = np.reshape(soi_grid_over_time_data_a[:,1:], (1001, GRID_L, GRID_L))
 soi_grid_over_time_array_b = np.reshape(soi_grid_over_time_data_b[:,1:], (1001, GRID_L, GRID_L))
 soi_grid_over_time_array_c = np.reshape(soi_grid_over_time_data_c[:,1:], (1001, GRID_L, GRID_L))
-
-# get grid coordinates for given row i and column j
-def get_grid_coordinates(i_row, j_colum):
-    grid_top_left_node = GRID_CENTER + np.array([-GRID_SIDE_LENGTH / 2 + GRID_NODE_DIST, GRID_SIDE_LENGTH / 2 - GRID_NODE_DIST, 0])
-    return grid_top_left_node + np.array([j_colum, -i_row, 0])  * GRID_NODE_DIST
 
 
 # main scene
@@ -81,28 +83,29 @@ class soi_main_scene(Scene):
                         grid_total_group.add(grid_node)
             return grid_total_group
 
-        # # adding objects
-        # self.add(headline)
-        # self.wait(0.5)
-        # self.play(FadeIn(legend_group), run_time = 3)
-        # self.wait(0.5)
-        # self.play(Create(main_grid), Write(main_L), Write(main_T), run_time = 1.5)
-        # self.wait(1.5)
-        # ### total grid, t = 0 ###
-        # total_grid = make_grid_from_array(soi_grid_over_time_array_c, 0)
-        # self.play(Create(total_grid), run_time = 5)
-        # self.wait(0.5)
-        # self.play(Create(rectange_probabilities), Write(text_probabilities), run_time = 1.5)
-        # self.play(FadeIn(probability_legend_group), run_time = 3)
-        # self.wait(1.5)
+
+        # adding objects
+        self.add(headline)
+        self.wait(0.5)
+        self.play(FadeIn(legend_group), run_time = 3)
+        self.wait(0.5)
+        self.play(Create(main_grid), Write(main_L), Write(main_T), run_time = 1.5)
+        self.wait(1.5)
+        ### total grid, t = 0 ###
+        total_grid = make_grid_from_array(soi_grid_over_time_array_c, 0)
+        self.play(Create(total_grid), run_time = 5)
+        self.wait(0.5)
+        self.play(Create(rectange_probabilities), Write(text_probabilities), run_time = 1.5)
+        self.play(FadeIn(probability_legend_group), run_time = 3)
+        self.wait(1.5)
 
         # add everything at once
-        self.add(headline, legend_group, main_grid, main_T, rectange_probabilities, text_probabilities, text_probabilities, probability_legend_group, main_L)
+        # self.add(headline, legend_group, main_grid, main_T, rectange_probabilities, text_probabilities, text_probabilities, probability_legend_group, main_L)
         ### total grid, t = 0 ###
-        total_grid = make_grid_from_array(soi_grid_over_time_array_b, 100)
-        self.add(total_grid)
+        # total_grid = make_grid_from_array(soi_grid_over_time_array_b, 100)
+        # self.add(total_grid)
         ### total grid t ###
-        for t in range(101, 201):
+        for t in range(1, 201):
             self.remove(total_grid)
             total_grid = make_grid_from_array(soi_grid_over_time_array_b, t)
             self.add(total_grid)
@@ -111,10 +114,6 @@ class soi_main_scene(Scene):
                 main_T = Tex(f"$t={t}$", color = WHITE, font_size = 24).move_to([-1, 2.45, 0])
                 self.add(main_T)
             self.wait(1/5)
-
-# ffmpeg -i soi_main_scene_b_main_1_100.mp4 -filter:v fps=60 soi_main_scene_b_main_1_100_fps60.mp4
-# ffmpeg -i soi_main_scene_b_main_1_100.mp4 -filter:v fps=60 soi_main_scene_b_main_1_100_fps60.mp4
-# ffmpeg -i soi_main_scene_b_main_1_100.mp4 -filter:v fps=60 soi_main_scene_b_main_1_100_fps60.mp4
 
 
 # ffmpeg -f concat -safe 0 -i soi_cat_a.txt -c copy ../../../soi_animation_full_a.mp4 

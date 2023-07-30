@@ -212,7 +212,7 @@ int main(void) {
     for (int L = 32; L <= 96; L += 32) {
         printf("A2 (~77 sec total): calculating L = %d ...\n", L);              // progress bar for A2
 
-        // setting up the rows with each 'L' in the files
+        // setting up the rows with each 'L' in the files first column
         fprintf(average_ratio_file_a, "\n%d", L);
         fprintf(average_ratio_file_b, "\n%d", L);
         fprintf(average_ratio_file_c, "\n%d", L);
