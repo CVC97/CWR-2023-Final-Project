@@ -46,9 +46,9 @@ class soi_main_scene(Scene):
         legend_group = VGroup(square_susceptible, square_infected, square_recovered, square_vaccinated, cross_vaccinated, text_susceptible, text_infected, text_recovered, text_vaccinated)
 
         # probability legend
-        text_p1 = Tex(r"$p_1(S\rightarrow I)=0.5$", font_size = 20).next_to([2.25, -1.3, 0])
-        text_p2 = Tex(r"$p_2(I\rightarrow R)=0.5$", font_size = 20).next_to([2.25, -1.8, 0])
-        text_p3 = Tex(r"$p_3(R\rightarrow S)=0.5$", font_size = 20).next_to([2.25, -2.3, 0])
+        text_p1 = Tex(r"$p_1(S\rightarrow I)=0.75$", font_size = 20).next_to([2.25, -1.3, 0])
+        text_p2 = Tex(r"$p_2(I\rightarrow R)=0.25$", font_size = 20).next_to([2.25, -1.8, 0])
+        text_p3 = Tex(r"$p_3(R\rightarrow S)=0.75$", font_size = 20).next_to([2.25, -2.3, 0])
         text_p4 = Tex(r"$p_4(V)=0$", font_size = 20).next_to([2.25, -2.8, 0])
         rectange_probabilities = Rectangle(color = WHITE, height = 2.5, width = 3.75, stroke_width = 1).move_to([3.5, -2, 0])
         text_probabilities = Tex(r"probabilities", color = WHITE, font_size = 18).move_to([2.3, -0.95, 0])
@@ -81,33 +81,42 @@ class soi_main_scene(Scene):
                         grid_total_group.add(grid_node)
             return grid_total_group
 
-        # adding objects
-        self.add(headline)
-        self.wait(0.5)
-        self.play(FadeIn(legend_group), run_time = 3)
-        self.wait(0.5)
-        self.play(Create(main_grid), Write(main_L), Write(main_T), run_time = 1.5)
-        self.wait(1.5)
-        ### total grid, t = 0 ###
-        total_grid = make_grid_from_array(soi_grid_over_time_array_a, 0)
-        self.play(Create(total_grid), run_time = 5)
-        self.wait(0.5)
-        self.play(Create(rectange_probabilities), Write(text_probabilities), run_time = 1.5)
-        self.play(FadeIn(probability_legend_group), run_time = 3)
-        self.wait(1.5)
-
-        # # add everything at once
-        # self.add(headline, legend_group, main_grid, main_T, rectange_probabilities, text_probabilities, text_probabilities, probability_legend_group, main_L)
+        # # adding objects
+        # self.add(headline)
+        # self.wait(0.5)
+        # self.play(FadeIn(legend_group), run_time = 3)
+        # self.wait(0.5)
+        # self.play(Create(main_grid), Write(main_L), Write(main_T), run_time = 1.5)
+        # self.wait(1.5)
         # ### total grid, t = 0 ###
-        # total_grid = make_grid_from_array(soi_grid_over_time_array_a, 0)
-        # self.add(total_grid)
-        # ### total grid t ###
-        # for t in range(1, 51):
-        #     self.remove(total_grid)
-        #     total_grid = make_grid_from_array(soi_grid_over_time_array_a, t)
-        #     self.add(total_grid)
-        #     if t % 10 == 0:
-        #         self.remove(main_T)
-        #         main_T = Tex(f"$t={t}$", color = WHITE, font_size = 24).move_to([-1, 2.45, 0])
-        #         self.add(main_T)
-        #     self.wait(1/5)
+        # total_grid = make_grid_from_array(soi_grid_over_time_array_c, 0)
+        # self.play(Create(total_grid), run_time = 5)
+        # self.wait(0.5)
+        # self.play(Create(rectange_probabilities), Write(text_probabilities), run_time = 1.5)
+        # self.play(FadeIn(probability_legend_group), run_time = 3)
+        # self.wait(1.5)
+
+        # add everything at once
+        self.add(headline, legend_group, main_grid, main_T, rectange_probabilities, text_probabilities, text_probabilities, probability_legend_group, main_L)
+        ### total grid, t = 0 ###
+        total_grid = make_grid_from_array(soi_grid_over_time_array_b, 100)
+        self.add(total_grid)
+        ### total grid t ###
+        for t in range(101, 201):
+            self.remove(total_grid)
+            total_grid = make_grid_from_array(soi_grid_over_time_array_b, t)
+            self.add(total_grid)
+            if t % 10 == 0:
+                self.remove(main_T)
+                main_T = Tex(f"$t={t}$", color = WHITE, font_size = 24).move_to([-1, 2.45, 0])
+                self.add(main_T)
+            self.wait(1/5)
+
+# ffmpeg -i soi_main_scene_b_main_1_100.mp4 -filter:v fps=60 soi_main_scene_b_main_1_100_fps60.mp4
+# ffmpeg -i soi_main_scene_b_main_1_100.mp4 -filter:v fps=60 soi_main_scene_b_main_1_100_fps60.mp4
+# ffmpeg -i soi_main_scene_b_main_1_100.mp4 -filter:v fps=60 soi_main_scene_b_main_1_100_fps60.mp4
+
+
+# ffmpeg -f concat -safe 0 -i soi_cat_a.txt -c copy ../../../soi_animation_full_a.mp4 
+# ffmpeg -f concat -safe 0 -i soi_cat_b.txt -c copy ../../../soi_animation_full_b.mp4 
+# ffmpeg -f concat -safe 0 -i soi_cat_c.txt -c copy ../../../soi_animation_full_c.mp4

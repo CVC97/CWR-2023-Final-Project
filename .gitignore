@@ -16,6 +16,9 @@
 soi_animations/__pycache__
 soi_animations/media
 
+# specifically unignore full animantions
+!soi_animations/*.mp4
+
 # specifically unignore the main pdf
 !spread_of_infection.pdf
 
