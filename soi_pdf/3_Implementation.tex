@@ -4,20 +4,20 @@
 
 \subsection{Structure and Workflow of the Main Program}
 
-\subsubsection*{Generation of Random Numbers by a Static RNG}
+\subsubsection{Generation of Random Numbers by a Static PRNG}
 
-For the generation of pseudorandom numbers the in \prettyref{ssec:methodology_rng_mt19937} described Mersenne\,Twister MT19937 was used. It was implemented statically and can therefore be accessed
-globally by the respective functions.
+For the generation of pseudorandom numbers the in \prettyref{ssec:methodology_rng_mt19937} described Mersenne\,Twister MT19937 was used. It was implemented statically to generate uniformly distributed
+numbers in the interval $[0,\,1)$ and can therefore be accessed globally by the respective functions. 
 
-% integers
+Overall the PRNG was used in two different ways, once to obtain probabilities, other to generate random integers.
+The former was accomplished by checking if the uniform was smaller than the respective probability, the latter by multiplying the uniform by the largest desired integer and then casting it to \texttt{int}.
 
-% percentages
 
-\subsubsection*{Implementation of the Modelling Grid}
+\subsubsection{Implementation of the Modelling Grid}
 
-The above mentioned grid itself was realized as a $\left(L+2\right)\times \left(L+2\right)$ heap section of integer values, with $L$ being the sidelength of the quadratic grid where the actual spread of the infection takes place.
-While this section is technically one-dimensional, it will for simplicity reasons be here refered to as a two-dimensional structure of the given shape. Inside the grid, the following integer values were used 
-to model the different states of the people within the simulation:
+The above mentioned grid itself was realized as a $\left(L+2\right)\times \left(L+2\right)$ heap section of integer values, with $L$ being the sidelength of the quadratic grid where the actual spread of the
+infection takes place. While this section is technically one-dimensional, it will for simplicity reasons be here refered to as a two-dimensional structure of the given shape. 
+Inside the grid, the following integer values were used to model the different states of the people within the simulation:
 \begin{itemize}
     \item \texttt{0}: this person is Susceptible \susceptible{} to the infection
     \item \texttt{1}: the person is Infected \infected{}
@@ -27,25 +27,28 @@ to model the different states of the people within the simulation:
 The grid was implemented with a supporting edge of ghosts at the top, bottom, left and right border, that are neither infectious nor subject to any updates of the grid --- they will permanently take the value
 \texttt{0} and are irrelevant for the later visualization and analysis of the data.
 
-\subsubsection*{Functions acting on the Modelling Grid}
+
+\subsubsection{Functions acting on the Modelling Grid}
 
 In the main program all changes in the grid are facilitated by functions outside the main one. They entirely work with or change the grid in-place and all take the grid itself as well as its length $L+2$ as arguments.
-Inside the functions, the grid is refered to as \texttt{grid}, its legth as \texttt{length} while the above probabilities are passed in form of the double array \texttt{probabilities}.
-Excluding the ones to calculate the infection rate and its time average, none of the functions does have a return value. Overall the following functions can be called from the main:
+Inside the functions, the grid is refered to as \texttt{grid} and its legth as \texttt{length}, while the above probabilities are passed in form of the double array \texttt{probabilities} having $p_1$, $p_2$, $p_3$ 
+and $p_4$ as its entries. Excluding the ones to calculate the infection rate and its time average, none of the functions does have a return value. Overall the following functions can be called from the main:
 \begin{itemize}
-    \item \texttt{void print\_grid}: prints the grid
+    \item \texttt{void print\_grid}: prints the passed grid as terminal ouput
     \item \texttt{void grid\_init}: initializes the grid applying the vaccination probability
-    \item \texttt{void update\_node}:
-    \item \texttt{void grid\_update\_linear}:
-    \item \texttt{void grid\_update\_stochastic}:
-    \item \texttt{double ratio\_infected}:
-    \item \texttt{double average\_ratio\_infected}:
+    \item \texttt{void update\_node}: updates the given node selected by its $L\times L$ grid coordinates \texttt{row\_i} and \texttt{column\_j} according to the turnover probabilities
+    \item \texttt{void grid\_update\_linear}: calls the \texttt{update\_node} function for each node in order of their grid position
+    \item \texttt{void grid\_update\_stochastic}: calls \texttt{update\_node} for $L^2$ randomly chosen nodes
+    \item \texttt{double ratio\_infected}: calculates the ratio of infected individuals with respect to the total grip population for a given grid
+    \item \texttt{double average\_ratio\_infected}: applies \texttt{T} simulation steps to the grid by calling the stochastic grid updater with passed turnover probabilities 
+    and averages the above infection rate over each simulation step
 \end{itemize}
 
-\subsubsection*{Structure of the Main Function and General Workflow}
 
-The main function Each section of the main function is an enclosed space in order to prevent the variables from interfering with each other.
+\subsubsection{Structure of the Main Function and General Workflow}
 
-Overall a running time of around two minutes should be expected after the interactive part is finished.
+The main function is divided into sections for each individual analysis step, where every section is an enclosed space in order to prevent the variables from interfering with each other.
+
+Overall a running time of around three minutes should be expected after the interactive part is finished.
 
 % \subsection{Naming of Variables}

@@ -29,3 +29,4 @@ soi_animations/media
 !*.py
 !*.ipynb
 !*.csv
+!*.pdf

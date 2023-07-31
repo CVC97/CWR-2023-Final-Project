@@ -2,7 +2,11 @@
 
 % \subsection{Infectious Disease Modelling}
 
-This model uses a quadratic grid of size $L\times L$ to examine the spread of an infectious agent. Each grid node is occupied by an immobile person and can be in one of the states
+Infectious disease modelling describes the . 
+It has enjoyed great popularity particularly during the COVID-19 pandemic and its influence on recent policies has been overwhelming, despite its mediocre success in projecting reality. 
+
+It can generally be distinguished between macroscale models such as the \textit{SEIR}-model that apply differential equations on a population level, and microscale models that have individuals as its smallest unit.
+This model uses a quadratic grid of size $L\times L$ and stochastic methods to examine the spread of an infectious agent on a microscale. Each grid node is occupied by an immobile person and can be in one of the states
 Susceptible \susceptible{}, Infected \infected{} or Recovered \recovered{}. Later, the forth state Vaccinated \vaccinated{} is introduced, that permanently excludes the respective people from taking any of the three other states. 
 For a person in one of the three active states \susceptible{}, \infected{} and \recovered{}, the following three transitions are possible,
 \begin{equation*}
@@ -17,9 +21,9 @@ With that, we have the three transition probabilities $p_1$, $p_2$ and $p_3$:
 Vaccinated people \vaccinated{} are set at the beginning of the simulation, with $p_4$ being the probability that a spot is occupied by one. The other three states are initializes with the same likelyhood, as the 
 simulation steps progress by each updating $L^2$ randomly chosen nodes according to the above mentioned rules.
 
-Goal was now to use the model to examine the influence of the transition probabilities on the infection rate averaged over all simulation steps. This included varying the $\susceptible\rightarrow\infected$ turover rate $p_1$
-for diffrent combinations of $p_2(\infected\rightarrow\recovered)$ and $p_3(\recovered\rightarrow\infected)$ as well as using different vaccination rates $p_4$ at initialization. For all simulations, different grid sizes
-were used to observe potential statistical inaccuracies.
+Goal was now to use this model to examine the influence of the transition probabilities on the infection rates averaged over all simulation steps. This included varying the $\susceptible\rightarrow\infected$ turover rate $p_1$
+for diffrent combinations of $p_2\left(\infected\rightarrow\recovered\,\right)$ and $p_3\left(\recovered\rightarrow\infected\,\right)$ as well as using different vaccination rates $p_4$ at initialization. 
+For all simulations, different grid sizes were used to observe potential statistical inaccuracies.
 
 Further, the time evolution of the infection rates was looked at to stress the validity of the preceding time averaging. Therefor a quantity of 20 infection rate samples was generated over simulation time
 with mean and standard deviation calculated for each timestep.

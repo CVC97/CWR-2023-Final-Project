@@ -2,20 +2,28 @@
 
 \subsection{Model for the Spread of Infectious Diseases}
 
+
+
 \subsection{Expected Ratio of Infected People averaged over Time}
+
+
 
 
 \begin{figure}[ht]
     \centering
     \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p1.pgf}}
-    \caption{Graphic}\label{fig:Res_Dis_Avg_Inf_over_p1}
+    \caption{Plots showing the time-averaged infection rates $\overline{\langle I\rangle}$ in dependence of the turnover probability $p_1\left(\susceptible\rightarrow\infected\,\right)$
+    for the different grid sizes $L=16$, $L=32$, $L=64$ and $L=128$ with $T=1000$ simulation steps each. The upper plot shows has now been generated using the turnover rates $p_2\left(\susceptible\rightarrow\infected\,\right)=0.3$
+    and $p_3\left(\susceptible\rightarrow\infected\,\right)=0.5$, the middle one using $p_2=0.6$ and $p_3=0.3$, and the lower one $p_2=0.3$ and $p_3=0.6$.}\label{fig:Res_Dis_Avg_Inf_over_p1}
 \end{figure}
 
 
 \begin{figure}[ht]
     \centering
-    \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p1_L96.pgf}}
-    \caption{Graphic}\label{fig:Res_Dis_Avg_Inf_over_p1_L96}
+    \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p1_L128.pgf}}
+    \caption{Detailed view of the time-averaged infection rates $\overline{\langle I\rangle}$ over $p_1\left(\susceptible\rightarrow\infected\,\right)$ for $L=128$ and $T=1000$ simulation steps. On the left the different
+    trends for the respective choices of $p_2\left(\susceptible\rightarrow\infected\,\right)$ and $p_3\left(\susceptible\rightarrow\infected\,\right)$ can be observed, 
+    while on the right the critical values of $p_1$ for $\overline{\langle I\rangle}$ approaching zero are visible.}\label{fig:Res_Dis_Avg_Inf_over_p1_L96}
 \end{figure}
 
 \subsection{Vaccinated People without Participation in the Spread}
@@ -23,7 +31,8 @@
 \begin{figure}[ht]
     \centering
     \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p4.pgf}}
-    \caption{Graphic}\label{fig:Res_Dis_Avg_Inf_over_p4}
+    \caption{Display of the time-averaged infection rates $\overline{\langle I\rangle}$ depending on the vaccination rate $p_4$ at the beginning of the simulation and constant turnover probabilities
+    $p_1=p_2=p_3=0.5$. The simulation was performed over $T=1000$ simulation steps and th respective grid sizes $L=16$, $L=32$, $L=64$ and $L=128$.}\label{fig:Res_Dis_Avg_Inf_over_p4}
 \end{figure}
 
 \subsection{Time Evolution of the Expected Ratio of Infected People}
@@ -35,5 +44,7 @@ As grid size $L=64$ was chosen for appropriate balance between running time and 
 \begin{figure}[ht]
     \centering
     \resizebox{\textwidth}{!}{\input{images/soi_infected_over_time.pgf}}
-    \caption{Graphic}\label{fig:Avg_Inf_over_t}
+    \caption{Time evolution of the infection rate $\langle I\rangle_t$ over each of the $T=1000$ simulation steps for a total of 20 samples. At each timestep mean $\overline{\langle I\rangle_t}$
+    and standard deviation $\sigma_{\langle I\rangle_t}$ of the infection rate were calculated and are also displayed in the plot. The grid size was chosen as $L=64$, the turnover probabilities
+    as $p_1=p_2=p_3=0.5$, no vaccinated induviduals were used.}\label{fig:Avg_Inf_over_t}
 \end{figure}

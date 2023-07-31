@@ -49,8 +49,8 @@ class soi_main_scene(Scene):
 
         # probability legend
         text_p1 = Tex(r"$p_1(S\rightarrow I)=0.75$", font_size = 20).next_to([2.25, -1.3, 0])
-        text_p2 = Tex(r"$p_2(I\rightarrow R)=0.25$", font_size = 20).next_to([2.25, -1.8, 0])
-        text_p3 = Tex(r"$p_3(R\rightarrow S)=0.75$", font_size = 20).next_to([2.25, -2.3, 0])
+        text_p2 = Tex(r"$p_2(I\rightarrow R)=0.5$", font_size = 20).next_to([2.25, -1.8, 0])
+        text_p3 = Tex(r"$p_3(R\rightarrow S)=0.5$", font_size = 20).next_to([2.25, -2.3, 0])
         text_p4 = Tex(r"$p_4(V)=0$", font_size = 20).next_to([2.25, -2.8, 0])
         rectange_probabilities = Rectangle(color = WHITE, height = 2.5, width = 3.75, stroke_width = 1).move_to([3.5, -2, 0])
         text_probabilities = Tex(r"probabilities", color = WHITE, font_size = 18).move_to([2.3, -0.95, 0])
@@ -92,7 +92,7 @@ class soi_main_scene(Scene):
         self.play(Create(main_grid), Write(main_L), Write(main_T), run_time = 1.5)
         self.wait(1.5)
         ### total grid, t = 0 ###
-        total_grid = make_grid_from_array(soi_grid_over_time_array_c, 0)
+        total_grid = make_grid_from_array(soi_grid_over_time_array_b, 0)
         self.play(Create(total_grid), run_time = 5)
         self.wait(0.5)
         self.play(Create(rectange_probabilities), Write(text_probabilities), run_time = 1.5)
@@ -101,11 +101,11 @@ class soi_main_scene(Scene):
 
         # add everything at once
         # self.add(headline, legend_group, main_grid, main_T, rectange_probabilities, text_probabilities, text_probabilities, probability_legend_group, main_L)
-        ### total grid, t = 0 ###
-        # total_grid = make_grid_from_array(soi_grid_over_time_array_b, 100)
+        # ### total grid, t = 0 ###
+        # total_grid = make_grid_from_array(soi_grid_over_time_array_b, 0)
         # self.add(total_grid)
         ### total grid t ###
-        for t in range(1, 201):
+        for t in range(1, 101):
             self.remove(total_grid)
             total_grid = make_grid_from_array(soi_grid_over_time_array_b, t)
             self.add(total_grid)
