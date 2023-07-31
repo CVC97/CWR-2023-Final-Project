@@ -4,10 +4,9 @@
 
 Infectious disease modelling describes the process of applying mathematical models to predict the future state of an epidemic. 
 Recently it has surged in popularity during the COVID-19 pandemic and its influence on recent policies has been overwhelming, despite its mediocre success in projecting reality. 
-The difficulties 
-
+The difficulties when modelling infectious diseases range from the overcomplex real situations to finding suitable assumptions to keep an appropriate level of accuracy.
 Generally it can be distinguished between macroscale models such as the SEIR-model\cite{SEIR_Heidelberg} that apply differential equations on a population level, 
-and microscale models that have individuals as its smallest unit.
+and microscale models that have individuals as their smallest unit.
 
 This model uses a quadratic grid of size $L\times L$ and stochastic methods to examine the spread of an infectious agent on a microscale. Each grid node is occupied by an immobile person and can be in one of the states
 Susceptible \susceptible{}, Infected \infected{} or Recovered \recovered{}. Later, the forth state Vaccinated \vaccinated{} is introduced, that permanently excludes the respective people from taking any of the three other states. 

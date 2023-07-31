@@ -33,7 +33,7 @@ class soi_main_scene(Scene):
         self.add(CVC)
 
         # headline
-        headline = Tex(r"Model for the spread of infectious diseases", font_size = 48).align_on_border(UP + LEFT, buff = 0.5).shift(0.5 * RIGHT)
+        headline = Tex(r"Model for the Spread of Infectious Diseases", font_size = 48).align_on_border(UP + LEFT, buff = 0.5).shift(0.5 * RIGHT)
 
         # legend
         square_susceptible = Square(color = WHITE, fill_opacity = 0.5, side_length = 0.3, stroke_width = 1).move_to([2, 2.1, 0])
@@ -59,7 +59,7 @@ class soi_main_scene(Scene):
         # main infection grid
         main_grid = Square(color = WHITE, side_length = GRID_SIDE_LENGTH, stroke_width = 0.5).move_to(GRID_CENTER)
         main_L = Tex(f"$L=96$", color = WHITE, font_size = 24).move_to([-5, 2.45, 0])
-        main_T = Tex(f"$t=0$", color = WHITE, font_size = 24).move_to([-1, 2.45, 0])
+        main_T = Tex(f"$t=10$", color = WHITE, font_size = 24).move_to([-1, 2.45, 0])
 
         # gridmaker for given 3D array and time t
         def make_grid_from_array(grid_array, t):
@@ -85,35 +85,35 @@ class soi_main_scene(Scene):
 
 
         # adding objects
-        self.add(headline)
-        self.wait(0.5)
-        self.play(FadeIn(legend_group), run_time = 3)
-        self.wait(0.5)
-        self.play(Create(main_grid), Write(main_L), Write(main_T), run_time = 1.5)
-        self.wait(1.5)
-        ### total grid, t = 0 ###
-        total_grid = make_grid_from_array(soi_grid_over_time_array_b, 0)
-        self.play(Create(total_grid), run_time = 5)
-        self.wait(0.5)
-        self.play(Create(rectange_probabilities), Write(text_probabilities), run_time = 1.5)
-        self.play(FadeIn(probability_legend_group), run_time = 3)
-        self.wait(1.5)
-
-        # add everything at once
-        # self.add(headline, legend_group, main_grid, main_T, rectange_probabilities, text_probabilities, text_probabilities, probability_legend_group, main_L)
+        # self.add(headline)
+        # self.wait(0.5)
+        # self.play(FadeIn(legend_group), run_time = 3)
+        # self.wait(0.5)
+        # self.play(Create(main_grid), Write(main_L), Write(main_T), run_time = 1.5)
+        # self.wait(1.5)
         # ### total grid, t = 0 ###
         # total_grid = make_grid_from_array(soi_grid_over_time_array_b, 0)
-        # self.add(total_grid)
+        # self.play(Create(total_grid), run_time = 5)
+        # self.wait(0.5)
+        # self.play(Create(rectange_probabilities), Write(text_probabilities), run_time = 1.5)
+        # self.play(FadeIn(probability_legend_group), run_time = 3)
+        # self.wait(1.5)
+
+        # add everything at once
+        self.add(headline, legend_group, main_grid, main_T, rectange_probabilities, text_probabilities, text_probabilities, probability_legend_group, main_L)
+        # # ### total grid, t = 0 ###
+        total_grid = make_grid_from_array(soi_grid_over_time_array_c, 0)
+        self.add(total_grid)
         ### total grid t ###
-        for t in range(1, 101):
-            self.remove(total_grid)
-            total_grid = make_grid_from_array(soi_grid_over_time_array_b, t)
-            self.add(total_grid)
-            if t % 10 == 0:
-                self.remove(main_T)
-                main_T = Tex(f"$t={t}$", color = WHITE, font_size = 24).move_to([-1, 2.45, 0])
-                self.add(main_T)
-            self.wait(1/5)
+        # for t in range(1, 101):
+        #     self.remove(total_grid)
+        #     total_grid = make_grid_from_array(soi_grid_over_time_array_b, t)
+        #     self.add(total_grid)
+        #     if t % 10 == 0:
+        #         self.remove(main_T)
+        #         main_T = Tex(f"$t={t}$", color = WHITE, font_size = 24).move_to([-1, 2.45, 0])
+        #         self.add(main_T)
+        #     self.wait(1/5)
 
 
 # ffmpeg -f concat -safe 0 -i soi_cat_a.txt -c copy ../../../soi_animation_full_a.mp4 
