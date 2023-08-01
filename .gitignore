@@ -1,9 +1,9 @@
 # ignore everything but folders
 *
 !*/
-#!README.md
 
 !.gitignore
+!README.md
 !makefile
 
 

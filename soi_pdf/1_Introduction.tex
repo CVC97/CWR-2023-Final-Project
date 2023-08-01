@@ -20,11 +20,11 @@ With that, we have the three transition probabilities $p_1$, $p_2$ and $p_3$:
     \item $p_2$: an infected person turning recovered
     \item $p_3$: a recovered person returning susceptible
 \end{itemize}
-Vaccinated people \vaccinated{} are set at the beginning of the simulation, with $p_4$ being the probability that a spot is occupied by one. The other three states are initializes with the same likelyhood, as the 
+Vaccinated people \vaccinated{} are set at the beginning of the simulation, with $p_4$ being the probability that a spot is occupied by one. The other three states are initialized with the same likelyhood, as the 
 simulation steps progress by each updating $L^2$ randomly chosen nodes according to the above mentioned rules.
 
 Goal was now to use this model to examine the influence of the transition probabilities on the infection rates averaged over all simulation steps. This included varying the $\susceptible\rightarrow\infected$ turover rate $p_1$
-for diffrent combinations of $p_2\left(\infected\rightarrow\recovered\,\right)$ and $p_3\left(\recovered\rightarrow\infected\,\right)$ as well as using different vaccination rates $p_4$ at initialization. 
+for diffrent combinations of $p_2\left(\infected\rightarrow\recovered\,\right)$ and $p_3\left(\recovered\rightarrow\susceptible\,\right)$ as well as using different vaccination rates $p_4$ at initialization. 
 For all simulations, different grid sizes were used to observe potential statistical inaccuracies.
 
 Further, the time evolution of the infection rates was looked at to stress the validity of the preceding time averaging. Therefor a quantity of 20 infection rate samples was generated over simulation time
