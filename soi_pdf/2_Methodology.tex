@@ -2,4 +2,9 @@
 
 \subsection{Pseudorandom Number Generator (PRNG) MT19937}\label{ssec:methodology_rng_mt19937}
 
-For the generation of pseudorandom numbers the 1997 developed PRNG Mer\-sen\-ne\,Twis\-ter MT19937\cite{Makoto_Takuji} was chosen.\cite{educativeMersenneTwister} The PRNG has a
+For the generation of pseudorandom numbers the 1997 developed PRNG Mer\-sen\-ne\,Twis\-ter MT19937\cite{Makoto_Takuji} was chosen. 
+It was published in 1997 and has become one of the most popular RNGS across programming languages.\cite{educativeMersenneTwister}
+
+Its very long period with $2^{19937}-1$ integers as well as the fact that its random nubmers are highly equidistributed\cite{MT_LearnCPP}, make the Mer\-sen\-ne\,Twis\-ter a very strong choice.
+The Mersenne Twister broadly works by first taking a vector of $624$ random numbers as seed, that are then transformed applying a ``twist'' operation and subsequently used to retrieve the usable pseudorandom number. 
+Once all integers of the state vector are consumed, the vector is regenerated.\cite{educativeMersenneTwister}\cite{MT_DavidWong}
