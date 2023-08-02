@@ -8,18 +8,20 @@ The difficulties when modelling infectious diseases range from the overcomplex r
 Generally it can be distinguished between macroscale models such as the SEIR-model\cite{SEIR_Heidelberg} that apply differential equations on a population level, 
 and microscale models that have individuals as their smallest unit.
 
-This model uses a quadratic grid of size $L\times L$ and stochastic methods to examine the spread of an infectious agent on a microscale. Each grid node is occupied by an immobile person and can be in one of the states
-Susceptible \susceptible{}, Infected \infected{} or Recovered \recovered{}. Later, the forth state Vaccinated \vaccinated{} is introduced, that permanently excludes the respective people from taking any of the three other states. 
+This model uses a cellular automaton\cite{CellularAutomaton} of quadratic shape $L\times L$ as well as stochastic methods to examine the spread of an infectious agent on a microscale. 
+Each grid node is occupied by an immobile person and can be in one of the states Susceptible \susceptible{}, Infected \infected{} or Recovered \recovered{}. Later, the forth state Vaccinated \vaccinated{} is introduced, 
+that permanently excludes the respective people from taking any of the three other states. 
 For a person in one of the three active states \susceptible{}, \infected{} and \recovered{}, the following three transitions are possible,
 \begin{equation*}
     \mathrm{Susceptible}~\susceptible\xlongrightarrow{p_1}\mathrm{Infected}~\infected{}\xlongrightarrow{p_2}\mathrm{Recovered}~\recovered{}\xlongrightarrow{p_3}\mathrm{Susceptible}~\susceptible{}.
 \end{equation*}
-With that, we have the three transition probabilities $p_1$, $p_2$ and $p_3$:
+With that, we have the following three transition probabilities:
 \begin{itemize}
-    \item $p_1$: a susceptible person getting infected by a direct infected neighbor
+    \item $p_1$: a susceptible person getting infected by an infected neighbor,
     \item $p_2$: an infected person turning recovered
     \item $p_3$: a recovered person returning susceptible
 \end{itemize}
+For the $\susceptible{}\rightarrow\infected{}$ transition, a von Neumann neighborhood was applied, meaning the four immediately adjacing nodes are consideres as neighbors.\cite{CellularAutomaton} 
 Vaccinated people \vaccinated{} are set at the beginning of the simulation, with $p_4$ being the probability that a spot is occupied by one. The other three states are initialized with the same likelyhood, as the 
 simulation steps progress by each updating $L^2$ randomly chosen nodes according to the above mentioned rules.
 

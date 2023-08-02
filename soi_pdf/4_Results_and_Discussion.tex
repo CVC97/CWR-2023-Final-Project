@@ -14,13 +14,13 @@ and $p_3\left(\susceptible\rightarrow\infected\,\right)$. The simulation was per
 The latter grid size $L=128$ is the largest one used for any simulation and still takes an acceptable but still non-negligable amount of calculation time.
 Since this side length should provide more than fluctuation-resistant results and the calculation time more than doubles for a doubling in $L$, this was the maximum grid size trialed.
 
-From looking at the results shown in \prettyref{fig:Res_Dis_Avg_Inf_over_p1} it immediately becomes visible that the lower grid sizes undergo stronger fluctuations in $\overline{\langle I\rangle}$ than the higher ones, 
+From looking at the results shown in \prettyref{fig:res_dis_avg_inf_over_p1} it immediately becomes visible that the lower grid sizes undergo stronger fluctuations in $\overline{\langle I\rangle}$ than the higher ones, 
 with very strong deviations for $L=16$, particularly with $p_2=0.6$ and $p_3=0.3$. It is worth noting that the lower grid sizes only deviate towards smaller time-averaged infection rates and never towards higher ones. 
 This can be explained by the underlying reason behind the deviations, which is not in fact primarily attributed to statistical fluctuations --- those are kept to a minimum due to averaging over time --- but
 rather a secondary effect of the stochastic methods: the spread came to a halt after the number of infected individuals had fluctuated to zero at some point during the simulation. The occurance of these zeroed runs does
 obviously happen more frequently with smaller grids, which can be confirmed using the manual updater at the beginning of the program and operating it with even lower grid sizes such as $L=8$.
-Since the final time-averaged infection rate also correlates with the timestep where the spread eventually stopped, and earlier halts are more likely with lower infection rates, stronger outliers follow as more frequent 
-for low infection rates as well. Consequently the simulation run with $p_2=0.6$ and $p_3=0.3$ and therefore the lowest $\overline{\langle I\rangle}$, also underwent the biggest changes from $L=16$ towards higher grid sizes.
+Since the final time-averaged infection rate also correlates with the timestep where the spread eventually stopped (and earlier halts are more likely with lower infection rates), stronger outliers also follow as more frequent 
+for low infection rates. Consequently the simulation run with $p_2=0.6$ and $p_3=0.3$ and therefore the lowest $\overline{\langle I\rangle}$, also underwent the biggest changes from $L=16$ in comparison with higher grid sizes.
 
 \begin{figure}[ht]
     \centering
@@ -28,33 +28,43 @@ for low infection rates as well. Consequently the simulation run with $p_2=0.6$ 
     \caption{Plots showing the time-averaged infection rates $\overline{\langle I\rangle}$ in dependence of the turnover probability $p_1\left(\susceptible\rightarrow\infected\,\right)$
     for the different grid sizes $L=16$, $L=32$, $L=64$ and $L=128$ with $T=1000$ simulation steps each. The upper plot shows has now been generated using the turnover rates 
     $p_2\left(\susceptible\rightarrow\infected\,\right)=0.3$ and $p_3\left(\susceptible\rightarrow\infected\,\right)=0.3$, 
-    the middle one using $p_2=0.6$ and $p_3=0.3$, and the lower one $p_2=0.3$ and $p_3=0.6$.}\label{fig:Res_Dis_Avg_Inf_over_p1}
+    the middle one using $p_2=0.6$ and $p_3=0.3$, and the lower one $p_2=0.3$ and $p_3=0.6$.}\label{fig:res_dis_avg_inf_over_p1}
 \end{figure}
 
 To further focus on the variations of $p_2$ and $p_3$ as well as the exact shape of the plotted curves, the time-averaged infection rates $\overline{\langle I\rangle}$ for the different probability combinations are 
-shown together in \prettyref{fig:Res_Dis_Avg_Inf_over_p1_L128}. The plot only comprises the grid size $L=128$ for better visibility, while the biggest grid size was chosen for accuracy reason. 
+shown together in \prettyref{fig:res_dis_avg_inf_over_p1_L128}. The plots only comprises the grid size $L=128$ for better visibility, while the biggest grid size was chosen for accuracy reason. 
+Qualitatively 
 
 \begin{figure}[ht]
     \centering
     \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p1_L128.pgf}}
     \caption{Detailed view of the time-averaged infection rates $\overline{\langle I\rangle}$ over $p_1\left(\susceptible\rightarrow\infected\,\right)$ for $L=128$ and $T=1000$ simulation steps. On the left the different
     trends for the respective choices of $p_2\left(\susceptible\rightarrow\infected\,\right)$ and $p_3\left(\susceptible\rightarrow\infected\,\right)$ can be observed, 
-    while on the right the critical values of $p_1$ for $\overline{\langle I\rangle}$ approaching zero are visible.}\label{fig:Res_Dis_Avg_Inf_over_p1_L128}
+    while on the right the critical values of $p_1$ for $\overline{\langle I\rangle}$ approaching zero are visible.}\label{fig:res_dis_avg_inf_over_p1_L128}
 \end{figure}
 
 \subsection{Vaccinated People without Participation in the Spread}
+
+In this simulation part, permanently vaccinated individuals \vaccinated{} were introduced. To investigate their influence of the infectious spread, the vaccination rate $p_4$ was varied between zero and one
+and its influence on the infection rate --- again averaged over simulation time --- calculated for $p_1=p_2=p_3=0.5$. Like previously, a total of $T=1000$ simulation steps for the grid sizes 
+$L=16$, $L=32$, $L=64$ and $L=128$ were conducted and are now shown in \prettyref{fig:res_dis_avg_inf_over_p4}. 
 
 \begin{figure}[ht]
     \centering
     \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p4.pgf}}
     \caption{Display of the time-averaged infection rates $\overline{\langle I\rangle}$ depending on the vaccination rate $p_4$ at the beginning of the simulation and constant turnover probabilities
-    $p_1=p_2=p_3=0.5$. The simulation was performed over $T=1000$ simulation steps and th respective grid sizes $L=16$, $L=32$, $L=64$ and $L=128$.}\label{fig:Res_Dis_Avg_Inf_over_p4}
+    $p_1=p_2=p_3=0.5$. The simulation was performed over $T=1000$ simulation steps and th respective grid sizes $L=16$, $L=32$, $L=64$ and $L=128$.}\label{fig:res_dis_avg_inf_over_p4}
 \end{figure}
 
 \subsection{Time Evolution of the Expected Ratio of Infected People}
 
-While previously the average of the ratio of infected individuals has been taken over time, the focus should now be layed on the time development of th einfection rate $\langle I\rangle_t$ for $N=20$ samples.
-As grid size $L=64$ was chosen for appropriate balance between running time and accuracy, the number of simulation steps again was set to $T=1000$.
+In the preceding subsections the average of the ratio of infected individuals has been taken over time. For this calculation to yield meaningful results, it is necessary to have
+rather time-stable infection rates over the course of the simulation. For that matter, the focus should now be layed on the time development of the infection rate $\langle I\rangle_t$ itself.
+Overall $N=20$ samples were generated, while a grid size $L=64$ was chosen for appropriate balance between running time and accuracy. The number of simulation steps again was set to $T=1000$. 
+Further, the mean of the infection rates $\overline{\langle I\rangle_t}$ and as its standard deviation $\sigma_{\langle I\rangle_t}$ were calculated for each simulation step. 
+This allows for a more detailed analysis of the statistical fluctuations in the infection rates $\langle I\rangle_t$ within and across samples. 
+
+The results are displayed in \prettyref{fig:res_dis_avg_inf_over_t} and first and foremost show
 
 
 \begin{figure}[ht]
@@ -62,5 +72,5 @@ As grid size $L=64$ was chosen for appropriate balance between running time and 
     \resizebox{\textwidth}{!}{\input{images/soi_infected_over_time.pgf}}
     \caption{Time evolution of the infection rate $\langle I\rangle_t$ over each of the $T=1000$ simulation steps for a total of 20 samples. At each timestep mean $\overline{\langle I\rangle_t}$
     and standard deviation $\sigma_{\langle I\rangle_t}$ of the infection rate were calculated and are also displayed in the plot. The grid size was chosen as $L=64$, the turnover probabilities
-    as $p_1=p_2=p_3=0.5$, no vaccinated induviduals were used.}\label{fig:Avg_Inf_over_t}
+    as $p_1=p_2=p_3=0.5$, no vaccinated induviduals were used.}\label{fig:res_dis_avg_inf_over_t}
 \end{figure}
