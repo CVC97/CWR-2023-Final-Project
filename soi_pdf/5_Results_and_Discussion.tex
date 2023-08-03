@@ -38,7 +38,8 @@ To explain this, an extreme case with very low around the critical $p_1$ value m
 % The former has a rather straighforward explanation since shorter timespans of people being infected will directly influence the amount of infections, whereas for the latter an extreme case with a very low 
 % infection rate has to be imagined: 
 
-
+Comparing this to the results regarding the maximum value of $\overline{\langle I\rangle}$, it can be said that the $p_3\left(\recovered\rightarrow\susceptible\,\right)$ rate 
+gains importance for higher infectction rates, while the recovery rate $p_2$ and infection rate $p_1$ affects the spread regardless of the state the model is in.
 % why ????
 
 \begin{figure}[ht]
@@ -72,12 +73,13 @@ the less people are infected. Worth noting is the exact vaccination rate that ha
 
 In the preceding subsections the average of the ratio of infected individuals has been taken over time. For this calculation to yield meaningful results, it is necessary to have
 rather time-stable infection rates over the course of the simulation. For that matter, the focus should now be layed on the time development of the infection rate $\langle I\rangle_t$ itself.
-Overall $N=20$ samples were generated, while a grid size $L=64$ was chosen for an appropriate balance between running time and accuracy. The number of simulation steps again was set to $T=1000$. 
+Overall $N=20$ samples were generated, while a grid size $L=64$ was chosen for an appropriate balance between running time and accuracy. The number of simulation steps again was set to $T=1000$,
+as turnover probabilities $p_1=p_2=p_3=0.5$ were chosen without vaccinated individuals at initialization. 
 Further, the mean of the infection rates $\overline{\langle I\rangle_t}$ and as its standard deviation $\sigma_{\langle I\rangle_t}$ were calculated for each simulation step. 
 This allows for a more detailed analysis of the statistical fluctuations in the infection rates $\langle I\rangle_t$ across samples. 
 
 The results are displayed in \prettyref{fig:res_dis_avg_inf_over_t} and it becomes immediately visible that a stable state only subject to statistical fluctuations is reached after only a few simulation steps.
-This underlines the validity of the time averaging
+This underlines the validity of the time averaging used in the pervious analysis steps.
 
 
 \begin{figure}[ht]

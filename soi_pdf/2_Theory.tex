@@ -1,5 +1,29 @@
 \section{Theory}
 
-% \subsection{Calculation the Infection Rate and its Averages}
+\subsection{Averaging within Simulation Runs}
 
-% \subsection{Statistical Analysis }
+Fundamental to the anaylsis of the simulation results is the rate of infected individuals in the grid at each timestep $\langle I\rangle_t$. It is calculated by summing up the infection status $I_{i,j}$
+over the totality of the grid and dividing it by the number of grid nodes $L^2$,
+\begin{equation}
+    \langle I\rangle_t=\frac{1}{L^2}\sum_{i=1,\,j=1}^{L}I_{i,\,j}.
+    \label{eq:theo_inf_rate}
+\end{equation}
+For that, the infection status is either taking $I_{i,j}=1$ for the person being in state \infected{} or $I_{i,j}=0$ otherwise. This infection rate can now be averaged over all timesteps $t$ to receive
+\begin{equation}
+    \overline{\langle I\rangle}=\frac{1}{T}\sum_{t=0}^{T}\langle I\rangle_t,
+    \label{eq:theo_time_avg_inf_rate}
+\end{equation}
+the time-averaged infection rate which most of the analysis steps are based on.
+
+\subsection{Averaging across Simulation Runs}
+
+For the evaluation of the time-averaging, the infection rate $\langle I\rangle_t$ was also averaged over a multitude of $N$ samples for each timestep. This mean at a given timestep $t$ is calculated as
+\begin{equation}
+    \overline{\langle I\rangle_t}=\frac{1}{N}\sum_{n=1}^{N}\langle I\rangle_t
+    \label{eq:theo_mean_inf_rate}
+\end{equation}
+and posesses a standard deviation of
+\begin{equation}
+    \sigma_{\langle I\rangle_t}=\frac{1}{N}\sum_{n=1}^{N}\left(\langle I\rangle_t-\overline{\langle I\rangle_t}\,\right)^2.
+    \label{eq:theo_sigma_inf_rate}
+\end{equation}

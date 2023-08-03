@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-# +++ Aufgabe 2: average of the expected number of infected people depending on 'p1' +++
+# +++ Exercise 2: average of the expected number of infected people depending on 'p1' +++
 
 # processing of the data
 soi_avg_ratio_infected_over_p1_03_03 = np.loadtxt("soi_average_ratio_infected_over_p1_a.csv", delimiter = ",", skiprows = 0)
@@ -127,7 +127,7 @@ plt.savefig('visualizations/soi_average_infected_over_p1_L128.pdf', facecolor = 
 plt.savefig('../soi_pdf/images/soi_average_infected_over_p1_L128.pgf', facecolor = 'white', bbox_inches='tight')
 
 
-# +++ Aufgabe 3: average of the expected number of infected people depending on 'p4' +++
+# +++ Exercise 3: average of the expected number of infected people depending on 'p4' +++
 
 # processing of the data
 soi_avg_ratio_infected_over_p4 = np.loadtxt("soi_average_ratio_infected_over_p4_v.csv", delimiter = ",", skiprows = 0)

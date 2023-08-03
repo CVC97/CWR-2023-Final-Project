@@ -7,7 +7,7 @@
 #include "cvc_rng.h"
 
 
-// statically implemented peseurandom number generator Mersenne-Twister MT19937
+// statically implemented peseurandom number generator Mersenne Twister MT19937
 double random_uniform(void) {
     static gsl_rng* generator = NULL;                                               // initializing the static rng variable
     if (generator == NULL) {                                                        // initializing MT19937 as rng at the first function call 
@@ -69,7 +69,6 @@ void update_node(int *grid, int length, int row_i, int column_j, double *probabi
             int south_node_state = grid[(row_i-1)*length + column_j];                                                 
             int east_node_state = grid[row_i*length + (column_j-1)];
             int west_node_state = grid[row_i*length + (column_j+1)];
-
             if ((north_node_state == 1 || south_node_state == 1 || east_node_state == 1 || west_node_state == 1) && random_uniform() < p1) {
                 *node = 1;
             }
@@ -138,7 +137,7 @@ double average_ratio_infected(int *grid, int length, int T, double *probabilitie
 
 int main(void) {
 
-// +++ Aufgabe 1: model for the spread of infectious diseases +++
+// +++ Exercise 1: model for the spread of infectious diseases +++
 {
 
     double probability_array[4];                                                // array with the probabilities pi 
@@ -190,7 +189,7 @@ int main(void) {
     free(infectious_grid);
 
 }
-// +++ Aufgabe 2: time-averaged infection rate depending on the turnover rate 'p1' from susceptible to infected +++ 
+// +++ Exercise 2: time-averaged infection rate depending on the turnover rate 'p1' from susceptible to infected +++ 
 {
     
     int T = 1000;                                                               // number 'T' of simulation steps
@@ -256,7 +255,7 @@ int main(void) {
     fclose(average_ratio_file_c);
 
 }
-// +++ Aufgabe 3: time-average of the infection rate depending on the rate of vaccinated, non-reactive people in the model 'p4' +++ 
+// +++ Exercise 3: time-average of the infection rate depending on the rate of vaccinated, non-reactive people in the model 'p4' +++ 
 {
 
     int T = 1000;                                                               // number 'T' of simulation steps
