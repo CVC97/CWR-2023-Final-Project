@@ -33,7 +33,8 @@ differ between the different combinations of $p_2\left(\infected\rightarrow\reco
 of $\overline{\langle I\rangle}$ for likelier $\infected\rightarrow\recovered~$ transitions and smaller maximum $\overline{\langle I\rangle}$ values for likelier $\susceptible\rightarrow\infected~$
 turnover rates. This corresponds to the intuitive understanding of the problem: there are more infected individuals when infections occur more frequently (hence the rise in $\overline{\langle I\rangle}$ for increased $p_1$) 
 or when people are sooner capable of getting (re)\,infected and overall less infected individuals for recoveries becoming more likely. For the critical probability $p_1$ it can be observed that
-it is significantly higher for a likelier $\infected\rightarrow\recovered~$ transition but remains approximately the same for the two values of $p_3\left(\recovered\rightarrow\susceptible\,\right)$.
+it is significantly higher for the likelier $\infected\rightarrow\recovered~$ transition ($p_1\approx 0.4$) but remains approximately the same ($p_1\approx 0.14$) for the two values of 
+$p_3\left(\recovered\rightarrow\susceptible\,\right)$.
 To explain this, an extreme case with very low around the critical $p_1$ value must be imagined
 % The former has a rather straighforward explanation since shorter timespans of people being infected will directly influence the amount of infections, whereas for the latter an extreme case with a very low 
 % infection rate has to be imagined: 
@@ -64,7 +65,7 @@ $L=16$, $L=32$, $L=64$ and $L=128$ were conducted and can be seen in \prettyref{
     $p_1=p_2=p_3=0.5$. The simulation was performed over $T=1000$ simulation steps and th respective grid sizes $L=16$, $L=32$, $L=64$ and $L=128$.}\label{fig:res_dis_avg_inf_over_p4}
 \end{figure}
 
-It can be seen that the time-averaged infection rate has a starting value of around $\overline{\langle I\rangle}=0.25$ for $p_4=0$ and then decreases until a vaccination rate of approximately $p_4=0.3$ is reached and
+It can be seen that the time-averaged infection rate has an original value of around $\overline{\langle I\rangle}=0.25$ for $p_4=0$ and then decreases until a vaccination rate of approximately $p_4=0.3$ is reached and
 the spread vanishes entirely. Again, the different grid sizes are subject the previously descibed deviations. The results match the expectations, the more individuals are excluded from the spread via vaccination,
 the less people are infected. Worth noting is the exact vaccination rate that halts the spread, which is rather low.
 
