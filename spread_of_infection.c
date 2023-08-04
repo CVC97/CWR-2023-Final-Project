@@ -255,7 +255,7 @@ int main(void) {
     fclose(average_ratio_file_c);
 
 }
-// +++ Exercise 3: time-average of the infection rate depending on the rate of vaccinated, non-reactive people in the model 'p4' +++ 
+// +++ Exercise 3: time-average of the infection rate depending on the rate of vaccinated, non-reactive people 'p4' in the model +++ 
 {
 
     int T = 1000;                                                               // number 'T' of simulation steps
@@ -267,7 +267,7 @@ int main(void) {
         fprintf(average_ratio_file_v, ", %g", p4);
     }
 
-    // iteration over 'L' (16, 32, 64, 128) to receive the average ratio of infected people for variable rates of vaccinated people 'p4'
+    // iteration over 'L' (16, 32, 64, 128) to receive the time-averaged ratio of infected people for variated rates of vaccinated people 'p4'
     for (int L = 16; L <= 128; L *= 2) {
         printf("A3: calculating L = %d (~30 sec total) ...\n", L);              // progress bar for A3
         fprintf(average_ratio_file_v, "\n%d", L);                               // setting up each row with its respective 'L' in the first column
@@ -344,8 +344,6 @@ int main(void) {
         double sigma_ratio_t64 = cvc_sigma(&ratio_over_time_array[t*N], N);     // call of the cvc-function to calculate the standard deviation for each time row
         fprintf(ratio_over_time_file, ", %g", sigma_ratio_t64);                 // adding the standard deviation for each timestep to the respective file row
     }
-
-    // freeing memory and closing files
     free(ratio_over_time_array);
     free(infectious_grid_t64);
     fclose(ratio_over_time_file);
