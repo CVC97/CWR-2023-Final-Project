@@ -5,7 +5,7 @@
 Fundamental to the anaylsis of the simulation results is the rate of infected individuals in the grid at each timestep $\langle I\rangle_t$. It is calculated by summing up the infection status $I_{i,j}$
 over the totality of the grid and dividing it by the number of grid nodes $L^2$,
 \begin{equation}
-    \langle I\rangle_t=\frac{1}{L^2}\sum_{i=1,\,j=1}^{L}I_{i,\,j}.
+    \langle I\rangle_t=\frac{1}{L^2}\sum_{i=1,\,j=1}^{L}I_{i,j}.
     \label{eq:theo_inf_rate}
 \end{equation}
 For that, the infection status is either taking $I_{i,j}=1$ for the person being in state \infected{} or $I_{i,j}=0$ otherwise. This infection rate can now be averaged over all timesteps $t$ to receive

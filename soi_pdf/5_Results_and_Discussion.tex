@@ -6,7 +6,7 @@ Aim was now to analyse the infection rate inside the grid averaged over all time
 turnover probability $p_1\left(\susceptible\rightarrow\infected\,\right)$ on the time-averaged infection rates was simulated for different combinations of $p_2\left(\infected\rightarrow\recovered\,\right)$
 and $p_3\left(\recovered\rightarrow\susceptible\,\right)$. The simulation was performed over $T=1000$ simulation steps for each of the grid sizes $L=16$, $L=32$, $L=64$ and $L=128$.
 The latter grid size $L=128$ is the largest one used for any simulation and still takes an acceptable but still non-negligable amount of calculation time.
-Since this side length should provide more than fluctuation-resistant results and the calculation time more than doubles for a doubling in $L$, this was the maximum grid size trialed.
+Since this side length should provide more than fluctuation-resistant results and the calculation time more than doubles for a doubling in $L$ due to the calculation functions, this was the maximum grid size trialed.
 
 From looking at the results shown in \prettyref{fig:res_dis_avg_inf_over_p1} it immediately becomes visible that the lower grid sizes undergo stronger fluctuations in $\overline{\langle I\rangle}$ than the higher ones, 
 with very strong deviations for $L=16$, particularly with $p_2=0.6$ and $p_3=0.3$. It is worth noting that the lower grid sizes only deviate towards smaller time-averaged infection rates and never towards higher ones. 
@@ -16,7 +16,7 @@ This can be explained by the underlying reason behind the deviations, which is n
     \centering
     \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p1.pgf}}
     \caption{Plots showing the time-averaged infection rates $\overline{\langle I\rangle}$ in dependence of the turnover probability $p_1\left(\susceptible\rightarrow\infected\,\right)$
-    for the different grid sizes $L=16$, $L=32$, $L=64$ and $L=128$ with $T=1000$ simulation steps each. The upper plot shows has now been generated using the turnover rates 
+    for the different grid sizes $L=16$, $L=32$, $L=64$ and $L=128$ with $T=1000$ simulation steps each. The upper plot was generated using the turnover rates 
     $p_2\left(\infected\rightarrow\recovered\,\right)=0.3$ and $p_3\left(\recovered\rightarrow\susceptible\,\right)=0.3$, 
     the middle one using $p_2=0.6$ and $p_3=0.3$, and the lower one $p_2=0.3$ and $p_3=0.6$.}\label{fig:res_dis_avg_inf_over_p1}
 \end{figure}
@@ -35,7 +35,7 @@ for low infection rates. Consequently the simulation ran with $p_2=0.6$ and $p_3
     while on the right the critical values of $p_1$ for $\overline{\langle I\rangle}$ approaching zero are visible.}\label{fig:res_dis_avg_inf_over_p1_L128}
 \end{figure}
 
-To further focus on the variations for different values of $p_2$ and $p_3$ as well as the exact shape of the plotted curves, the time-averaged infection rates $\overline{\langle I\rangle}$ for the different probability 
+To further focus on the variations for different values of $p_2$ and $p_3$, as well as the exact shape of the plotted curves, the time-averaged infection rates $\overline{\langle I\rangle}$ for the different probability 
 combinations are shown together in \prettyref{fig:res_dis_avg_inf_over_p1_L128}. The plots only comprise the grid size $L=128$ for better visibility, while the biggest grid size was chosen for accuracy reasons. 
 Qualitatively it can be seen that $\overline{\langle I\rangle}$ remains approximately zero until a critical probability $p_1\left(\susceptible\rightarrow\infected\,\right)$ is reached and then
 experiences a rise leading to a maximum value at $p_1=1$. The critical value of the the time-averaged infection rate becoming non-zero, as well as the maximum value of $\overline{\langle I\rangle}$ 
@@ -44,21 +44,20 @@ of $\overline{\langle I\rangle}$ for likelier $\infected\rightarrow\recovered~$ 
 turnover rates. This corresponds to the intuitive understanding of the problem: there are more infected individuals when infections occur more frequently (hence the rise in $\overline{\langle I\rangle}$ for increased $p_1$) 
 or when people are sooner capable of getting (re)\,infected and overall less infected individuals for recoveries becoming more likely. For the critical probability $p_1$ it can be observed that
 it is significantly higher for the likelier $\infected\rightarrow\recovered~$ transition ($p_1\approx 0.4$) but remains approximately the same ($p_1\approx 0.14$) for the two values of 
-$p_3\left(\recovered\rightarrow\susceptible\,\right)$.
-
+$p_3\left(\recovered\rightarrow\susceptible\,\right)$. 
 To explain this, an extreme case with very low infection rates around the critical $p_1$ value must be imagined. In such a case it will obviously matter how long people are infectious as it directly increases the likelyhood
 of a neighbor getting infected. However, with the infection rate itself being very low, the rate of recovered individuals will also be very low and their recovery probability therefore will only have a very limited influence
 on the amount of infections happening. That being said, the influence --- albeit very low --- does exist, which is why in \prettyref{fig:res_dis_avg_inf_over_p1_L128} also a slight difference in the critical $p_1$ value
-regarding the halting of the spread can be observed.\newline
+regarding the halting of the spread can be observed between the different probabilities of $p_3$.\newline
 Comparing this to the results regarding the maximum value of $\overline{\langle I\rangle}$, it can be said that the $p_3\left(\recovered\rightarrow\susceptible\,\right)$ rate 
-gains importance for higher infectction rates, while the recovery rate $p_2$ and infection rate $p_1$ affects the spread regardless of the state the model is in.
+gains importance for higher infectction rates, while recovery rate $p_2$ and infection rate $p_1$ affect the spread regardless of the state the model is in.
 
 
 \subsection{Influence of Vaccinated People on the Spread}
 
 In this simulation part, permanently vaccinated individuals \vaccinated{} were introduced. To investigate their influence of the infectious spread, the vaccination rate $p_4$ was varied between values of zero and one
-and its influence on the infection rate --- again averaged over simulation time --- calculated for $p_1=p_2=p_3=0.5$. Like previously, a total of $T=1000$ simulation steps for the grid sizes 
-$L=16$, $L=32$, $L=64$ and $L=128$ were conducted and can be seen in \prettyref{fig:res_dis_avg_inf_over_p4}. 
+and its influence on the infection rate --- again averaged over simulation time --- was calculated for $p_1=p_2=p_3=0.5$. Like previously, a total of $T=1000$ simulation steps for the grid sizes 
+$L=16$, $L=32$, $L=64$ and $L=128$ were conducted and can be observed in \prettyref{fig:res_dis_avg_inf_over_p4}. 
 
 \begin{figure}[ht]
     \centering

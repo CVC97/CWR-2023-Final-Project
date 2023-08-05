@@ -1,21 +1,21 @@
 \section{Introduction}
 
 Infectious disease modelling describes the process of applying mathematical models to predict the future state of an epidemic. 
-It has recently surged in popularity during the COVID-19 pandemic and its influence on recent policies has been overwhelming, despite its mediocre success in projecting reality. 
+It has surged in popularity during the COVID-19 pandemic and its influence on recent policies has been overwhelming, despite its mediocre success in projecting reality. 
 The difficulties when modelling infectious diseases range from the overcomplex real situations to finding suitable assumptions to keep an appropriate level of accuracy.
 Generally it can be distinguished between macroscale models such as the SEIR-model\cite{SEIR_Heidelberg} that apply differential equations on a population level, 
 and microscale models that have individuals as their smallest unit.
 
 This model uses a cellular automaton\cite{CellularAutomaton} of quadratic shape $L\times L$ as well as stochastic methods to examine the spread of an infectious agent on a microscale. 
-Each grid node is occupied by an immobile person and can be in one of the states Susceptible \susceptible{}, Infected \infected{} or Recovered \recovered{}. Later, the forth state Vaccinated \vaccinated{} is introduced, 
+Each grid node is occupied by an immobile person and can be in one of the states Susceptible \susceptible{}, Infected \infected{} or Recovered \recovered{}. Later, the fourth state Vaccinated \vaccinated{} is introduced, 
 that permanently excludes the respective people from taking any of the three other states. 
-For a person in one of the three active states \susceptible{}, \infected{} and \recovered{}, the following three transitions are possible,
+For a person in one of those three active states \susceptible{}, \infected{} and \recovered{}, the following three transitions are possible,
 \begin{equation*}
     \mathrm{Susceptible}~\susceptible\xlongrightarrow{p_1}\mathrm{Infected}~\infected{}\xlongrightarrow{p_2}\mathrm{Recovered}~\recovered{}\xlongrightarrow{p_3}\mathrm{Susceptible}~\susceptible{}.
 \end{equation*}
 With that, we have the following three transition probabilities:
 \begin{itemize}
-    \item $p_1$: a susceptible person getting infected by an infected neighbor,
+    \item $p_1$: a susceptible person getting infected by an infected neighbor
     \item $p_2$: an infected person turning recovered
     \item $p_3$: a recovered person returning susceptible
 \end{itemize}
