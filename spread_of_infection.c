@@ -7,7 +7,7 @@
 #include "cvc_rng.h"
 
 
-// statically implemented peseurandom number generator Mersenne Twister MT19937
+// statically implemented pseudorandom number generator Mersenne Twister MT19937
 double random_uniform(void) {
     static gsl_rng* generator = NULL;                                               // initializing the static rng variable
     if (generator == NULL) {                                                        // initializing MT19937 as rng at the first function call 
@@ -37,7 +37,7 @@ void print_grid(int *grid, int length) {
 }
 
 
-// initialize the given 'grid' of 'length' (L+2) with integers 0 (susceptible S), 1 (infected I), 2 (recovered R) and -1 (vaccinated V)
+// initialize the given 'grid' of 'length' (L+2) with integers 0 (Susceptible S), 1 (Infected I), 2 (Recovered R) and -1 (Vaccinated V)
 void grid_init(int *grid, int length, double *probabilities) {
     double p4 = probabilities[3];                                                   // caching the probability of someone being initialized as V                                      
     // iterating through the grid ignoring the borders
@@ -62,9 +62,9 @@ void update_node(int *grid, int length, int row_i, int column_j, double *probabi
     double p3 = probabilities[2];
     int *node = &grid[row_i*length + column_j];                                     // caching the pointer on the selceted 'node' to change the grid in-place
     switch (*node) {                                                                // select for the state the selected person/node is in
-        case -1:                                                                    // person is in state vaccinated V and will remain there
+        case -1:                                                                    // -1: person is in state vaccinated V and will remain there
             break;
-        case 0:                                                                     // person is susceptible S and gets infected I with p1 for (at least) one infected neighbor
+        case 0:                                                                     // 0: person is susceptible S and gets infected I with p1 for (at least) one infected neighbor
             int north_node_state = grid[(row_i+1)*length + column_j];
             int south_node_state = grid[(row_i-1)*length + column_j];                                                 
             int east_node_state = grid[row_i*length + (column_j-1)];
@@ -73,12 +73,12 @@ void update_node(int *grid, int length, int row_i, int column_j, double *probabi
                 *node = 1;
             }
             break;
-        case 1:                                                                     // person is infected I and turns recovered R with p2            
+        case 1:                                                                     // 1: person is infected I and turns recovered R with p2            
             if (random_uniform() < p2) {
                 *node = 2;
             }
             break;
-        case 2:                                                                     // person is recovered R and return susceptible S with p3
+        case 2:                                                                     // 2: person is recovered R and return susceptible S with p3
             if (random_uniform() < p3) {
                 *node = 0;
             }
@@ -87,7 +87,7 @@ void update_node(int *grid, int length, int row_i, int column_j, double *probabi
 }
 
 
-// update the 'grid' with squared 'length' according to the 'probibilities' (all grid-points in order)
+// update the 'grid' with 'length' according to the 'probibilities' (all grid-points in sequence)
 void grid_update_linear(int *grid, int length, double *probabilities) {
     for (int row_i = 1; row_i < length-1; row_i++) {
         for (int column_j = 1; column_j < length-1; column_j++) {
@@ -98,7 +98,7 @@ void grid_update_linear(int *grid, int length, double *probabilities) {
 }
 
 
-// update the 'grid' with squared 'length' according to the 'probibilities' (L^2 grid-points randomly chosen)
+// update the 'grid' with 'length' according to the 'probibilities' (L^2 grid-points randomly chosen)
 void grid_update_stochastic(int *grid, int length, double *probabilities) {
     for (int i = 0; i < (length-2) * (length-2); i++) {
         int row_i = ((int) (random_uniform() * (length-2))) + 1;
@@ -109,7 +109,7 @@ void grid_update_stochastic(int *grid, int length, double *probabilities) {
 }
 
 
-// ratio infected to uninfected for the given 'grid' of 'length' 
+// returns the ratio infected to uninfected for the given 'grid' of 'length' 
 double ratio_infected(int *grid, int length) {
     double sum_infected = 0;
     for (int row_i = 1; row_i < length-1; row_i++) {
@@ -124,7 +124,7 @@ double ratio_infected(int *grid, int length) {
 } 
 
 
-// average ratio infected to uninfected over 'T' simulation steps for given 'grid', 'length' and 'probabilities'
+// returns the average ratio infected to uninfected over 'T' simulation steps for given 'grid', 'length' and 'probabilities'
 double average_ratio_infected(int *grid, int length, int T, double *probabilities) {
     double sum_ratio = ratio_infected(grid, length);
     for (int i = 0; i < T; i++) {
@@ -140,9 +140,9 @@ int main(void) {
 // +++ Exercise 1: model for the spread of infectious diseases +++
 {
 
-    double probability_array[4];                                                // array with the probabilities pi 
+    double probability_array[4];                                                // array with the probabilities p_i 
     int L;                                                                      // integer sidelegth 'L' of the squared grid of people
-    int updating_rule = 1;                                                      // character to save the updating rule (linear or stochastic)
+    int updating_rule = 1;                                                      // character to save the updating rule (linear 0 or stochastic 1)
 
     // input of the probablities 'pi' and the sidelength 'L' of the quadratic grid and saving the probabilities in the corresponding array
     printf("Enter p1 (susceptible -> infected): ");
@@ -172,7 +172,7 @@ int main(void) {
     }
     while (getchar() != '\n');
 
-    // update grid manually for one timestep
+    // update grid manually for one timestep each
     char c;                                                                     // input variable c
     while ((c = getchar()) != EOF ) {
         if (c == '\n') {                                                        // confirm input with 'ENTER' and update the grid according to the saved updating rule
@@ -209,7 +209,7 @@ int main(void) {
 
     // iteration over 'L' (16, 32, 64, 128) to receive the time-averaged ratio of infected people in the grid depending on 'p1' for each 'L' and different combinations of p2 and p3 
     for (int L = 16; L <= 128; L *= 2) {
-        printf("A2: calculating L = %d (< 150 sec total) ...\n", L);            // progress bar for A2
+        printf("A2: calculating L = %d (< 150 sec total) ...\n", L);            // progress bar for Ex2
 
         // setting up the rows with each 'L' in the files first column
         fprintf(average_ratio_file_a, "\n%d", L);
@@ -269,7 +269,7 @@ int main(void) {
 
     // iteration over 'L' (16, 32, 64, 128) to receive the time-averaged ratio of infected people for variated rates of vaccinated people 'p4'
     for (int L = 16; L <= 128; L *= 2) {
-        printf("A3: calculating L = %d (< 40 sec total) ...\n", L);             // progress bar for A3
+        printf("A3: calculating L = %d (< 40 sec total) ...\n", L);             // progress bar for Ex3
         fprintf(average_ratio_file_v, "\n%d", L);                               // setting up each row with its respective 'L' in the first column
         int *infectious_grid_v = (int*) calloc((L+2)*(L+2), sizeof(int));       // allocating memory for the respective grid containing vaccinated individuals
 
