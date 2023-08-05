@@ -191,7 +191,7 @@ int main(void) {
 }
 // +++ Exercise 2: time-averaged infection rate depending on the turnover rate 'p1' from susceptible to infected +++ 
 {
-    
+
     int T = 1000;                                                               // number 'T' of simulation steps
 
     // setting up the files a, b and c for the various combinations of p2 and p3 with their first row p1 values and 00 as dummies for the top left csv entries
@@ -209,7 +209,7 @@ int main(void) {
 
     // iteration over 'L' (16, 32, 64, 128) to receive the time-averaged ratio of infected people in the grid depending on 'p1' for each 'L' and different combinations of p2 and p3 
     for (int L = 16; L <= 128; L *= 2) {
-        printf("A2: calculating L = %d (~120 sec total) ...\n", L);             // progress bar for A2
+        printf("A2: calculating L = %d (< 150 sec total) ...\n", L);            // progress bar for A2
 
         // setting up the rows with each 'L' in the files first column
         fprintf(average_ratio_file_a, "\n%d", L);
@@ -269,7 +269,7 @@ int main(void) {
 
     // iteration over 'L' (16, 32, 64, 128) to receive the time-averaged ratio of infected people for variated rates of vaccinated people 'p4'
     for (int L = 16; L <= 128; L *= 2) {
-        printf("A3: calculating L = %d (~30 sec total) ...\n", L);              // progress bar for A3
+        printf("A3: calculating L = %d (< 40 sec total) ...\n", L);             // progress bar for A3
         fprintf(average_ratio_file_v, "\n%d", L);                               // setting up each row with its respective 'L' in the first column
         int *infectious_grid_v = (int*) calloc((L+2)*(L+2), sizeof(int));       // allocating memory for the respective grid containing vaccinated individuals
 
@@ -313,7 +313,7 @@ int main(void) {
         printf("ERROR! Memory is not available, please add more RAM.");
         return 1;
     }
-    printf("Time Evolution Infection Rate: calculating (~4 sec) ...\n");        // progress bar for time evolution
+    printf("Time Evolution Infection Rate: calculating (< 6 sec) ...\n");       // progress bar for time evolution
 
     // iterating over the 'N' samples
     for (int n = 0; n < N; n++) {
@@ -351,7 +351,7 @@ int main(void) {
 }
 // +++ Supplementary Data Generation: time development of the grid itself and three different probability variants +++
 {
-    
+
     int L = 96;                                                                 // grid length
     int T = 1000;                                                               // number 'T' of simulation steps
 
@@ -363,7 +363,7 @@ int main(void) {
         printf("ERROR! Memory is not available, please add more RAM.");
         return 1;
     }
-    printf("Time Evolution Grid: calculating (~2 sec) ...\n");                  // progress bar for time evolution
+    printf("Time Evolution Grid: calculating (< 4 sec) ...\n");                 // progress bar for time evolution
 
     // initializing the three probability arrays
     double probability_array_t96_a[4] = {0.5, 0.5, 0.5, 0};                     // probability array for a: 'p1' = 'p2' = 'p3' = 0.5, no vaccination rate

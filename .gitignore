@@ -12,6 +12,7 @@
 !soi_pdf/*.cls
 !soi_pdf/*.sty
 !soi_pdf/*.bib
+!soi_pdf/images/
 
 # unignore graphic pdf
 !soi_data/visualizations/*.pdf

@@ -84,7 +84,7 @@ ax[2].legend(loc = "upper left")
 ax[2].set_ylim([-0.02, 0.6])
 
 plt.savefig('visualizations/soi_average_infected_over_p1.pdf', facecolor = 'white', bbox_inches='tight')
-plt.savefig('../soi_pdf/images/soi_average_infected_over_p1.pgf', facecolor = 'white', bbox_inches='tight')
+# plt.savefig('../soi_pdf/images/soi_average_infected_over_p1.pgf', facecolor = 'white', bbox_inches='tight')
 
 
 # refined plot for L = 128
@@ -124,7 +124,7 @@ ax[1].set_xlim([-0.01, 0.5])
 ax[1].set_ylim([-0.01, 0.1])
 
 plt.savefig('visualizations/soi_average_infected_over_p1_L128.pdf', facecolor = 'white', bbox_inches='tight')
-plt.savefig('../soi_pdf/images/soi_average_infected_over_p1_L128.pgf', facecolor = 'white', bbox_inches='tight')
+# plt.savefig('../soi_pdf/images/soi_average_infected_over_p1_L128.pgf', facecolor = 'white', bbox_inches='tight')
 
 
 # +++ Exercise 3: average of the expected number of infected people depending on 'p4' +++
@@ -159,7 +159,7 @@ ax.legend()
 ax.legend(loc = "upper right")
 
 plt.savefig('visualizations/soi_average_infected_over_p4.pdf', facecolor = 'white', bbox_inches='tight')
-plt.savefig('../soi_pdf/images/soi_average_infected_over_p4.pgf', facecolor = 'white', bbox_inches='tight')
+# plt.savefig('../soi_pdf/images/soi_average_infected_over_p4.pgf', facecolor = 'white', bbox_inches='tight')
 
 
 # +++ Time Analysis: time development of the infection rate over N samples +++
@@ -188,4 +188,4 @@ ax.legend()
 ax.legend(loc = "upper right")
 
 plt.savefig('visualizations/soi_infected_over_time.pdf', facecolor = 'white', bbox_inches='tight')
-plt.savefig('../soi_pdf/images/soi_infected_over_time.pgf', facecolor = 'white', bbox_inches='tight')
+# plt.savefig('../soi_pdf/images/soi_infected_over_time.pgf', facecolor = 'white', bbox_inches='tight')
