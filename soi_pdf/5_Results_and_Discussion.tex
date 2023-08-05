@@ -8,9 +8,8 @@ and $p_3\left(\recovered\rightarrow\susceptible\,\right)$. The simulation was pe
 The latter grid size $L=128$ is the largest one used for any simulation and still takes an acceptable but still non-negligable amount of calculation time.
 Since this side length should provide more than fluctuation-resistant results and the calculation time more than doubles for a doubling in $L$ due to the calculation functions, this was the maximum grid size trialed.
 
-From looking at the results shown in \prettyref{fig:res_dis_avg_inf_over_p1} it immediately becomes visible that the lower grid sizes undergo stronger fluctuations in $\overline{\langle I\rangle}$ than the higher ones, 
-with very strong deviations for $L=16$, particularly with $p_2=0.6$ and $p_3=0.3$. It is worth noting that the lower grid sizes only deviate towards smaller time-averaged infection rates and never towards higher ones. 
-This can be explained by the underlying reason behind the deviations, which is not in fact primarily attributed to statistical fluctuations --- those 
+{From looking at the results shown in \prettyref{fig:res_dis_avg_inf_over_p1} it immediately becomes visible that the lower grid sizes undergo stronger fluctuations in $\overline{\langle I\rangle}$ than the higher ones, 
+with very\parfillskip=0pt\par}
 
 \begin{figure}[H]
     \centering
@@ -21,7 +20,8 @@ This can be explained by the underlying reason behind the deviations, which is n
     the middle one using $p_2=0.6$ and $p_3=0.3$, and the lower one $p_2=0.3$ and $p_3=0.6$.}\label{fig:res_dis_avg_inf_over_p1}
 \end{figure}
 
-are kept to a minimum due to averaging over time --- but
+strong deviations for $L=16$, particularly with $p_2=0.6$ and $p_3=0.3$. It is worth noting that the lower grid sizes only deviate towards smaller time-averaged infection rates and never towards higher ones. 
+This can be explained by the underlying reason behind the deviations, which is not in fact primarily attributed to statistical fluctuations --- those are kept to a minimum due to averaging over time --- but
 rather a secondary effect of the stochastic methods: the spread came to a halt after the number of infected individuals had fluctuated to zero at some point during the simulation. The occurance of these zeroed runs does
 obviously happen more frequently with smaller grids, which can be confirmed using the manual updater at the beginning of the program and operating it with even lower grid sizes such as $L=8$.
 Since the final time-averaged infection rate also correlates with the timestep where the spread eventually stopped (and earlier halts are more likely with lower infection rates), stronger outliers also follow as more frequent 
