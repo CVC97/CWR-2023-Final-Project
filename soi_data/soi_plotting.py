@@ -117,7 +117,7 @@ ax[1].scatter(p1_array, avg_ratio_infected_p1_03_06_L128, color = 'black', s = 1
 ax[1].plot(p1_array, avg_ratio_infected_p1_03_03_L128, color = 'xkcd:red pink', alpha = 0.5, linewidth = 1, linestyle = '--')
 ax[1].plot(p1_array, avg_ratio_infected_p1_06_03_L128, color = 'blue', alpha = 0.5, linewidth = 1, linestyle = '--')
 ax[1].plot(p1_array, avg_ratio_infected_p1_03_06_L128, color = 'black', alpha = 0.5, linewidth = 1, linestyle = '--')
-ax[1].set_title(r'$\overline{\langle I\rangle}$ over $p_1$ for $T=1000$ for $L=128$')
+ax[1].set_title(r'$\overline{\langle I\rangle}$ over $p_1$ for $T=1000$ for $L=128$ (magnified)')
 ax[1].legend()
 ax[1].legend(loc = "upper left")
 ax[1].set_xlim([-0.01, 0.5])
@@ -182,7 +182,7 @@ ax.plot(time_array, soi_ratio_over_time[2,1:], color = 'grey', alpha = 0.25, lin
 for ratio_over_time in soi_ratio_over_time[2:-2,1:]:
     ax.plot(time_array, ratio_over_time, color = 'grey', alpha = 0.25, linewidth = 0.5)
 ax.plot(time_array, mean_array, color = 'black', alpha = 0.75, linewidth = 1, label = r'mean $\overline{\langle I\rangle_t}$')
-ax.fill_between(time_array, mean_array-sigma_array, mean_array+sigma_array, color = 'xkcd:red pink', alpha = 0.2, linewidth = 1, label = r'standard deviation $\sigma_{\langle I\rangle_t}$')
+ax.fill_between(time_array, mean_array-sigma_array, mean_array+sigma_array, color = 'xkcd:red pink', alpha = 0.30, linewidth = 1, label = r'standard deviation $\sigma_{\langle I\rangle_t}$')
 ax.set_title(r'time evolution of $\langle I\rangle_t$ for $T=1000$ simulation steps and $L=64$ with $p_1=p_2=p_3=0.5$')
 ax.legend()
 ax.legend(loc = "upper right")

@@ -14,3 +14,14 @@
 \newcommand{\infected}{\textit{I}}
 \newcommand{\recovered}{\textit{R}}
 \newcommand{\vaccinated}{\textit{V}}
+
+% tikz macros
+
+    
+\newcommand{\R}{2cm} % Circle radius
+% \newcommand{\texta}{\textbf{S} \\ Susceptible}
+% \newcommand{\textb}{\textbf{I} \\ Infected}
+% \newcommand{\textc}{\textbf{R} \\ Recovered}
+\newcommand{\texta}{\susceptible \\ Susceptible}
+\newcommand{\textb}{\infected \\ Infected}
+\newcommand{\textc}{\recovered \\ Recovered}

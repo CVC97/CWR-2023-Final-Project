@@ -7,25 +7,40 @@ Generally it can be distinguished between macroscale models such as the SEIR-mod
 and microscale models that have individuals as their smallest unit.
 
 This model uses a cellular automaton\cite{CellularAutomaton} of quadratic shape $L\times L$ as well as stochastic methods to examine the spread of an infectious agent on a microscale. 
-Each grid node is occupied by an immobile person and can be in one of the states Susceptible \susceptible{}, Infected \infected{} or Recovered \recovered{}. Later, the fourth state Vaccinated \vaccinated{} is introduced, 
-that permanently excludes the respective people from taking any of the three other states. 
-For a person in one of those three active states \susceptible{}, \infected{} and \recovered{}, the following three transitions are possible,
-\begin{equation*}
-    \mathrm{Susceptible}~\susceptible\xlongrightarrow{p_1}\mathrm{Infected}~\infected{}\xlongrightarrow{p_2}\mathrm{Recovered}~\recovered{}\xlongrightarrow{p_3}\mathrm{Susceptible}~\susceptible{}.
-\end{equation*}
-With that, we have the following three transition probabilities:
+Each grid node is occupied by an immobile person and can be in one of the states Susceptible \susceptible{}, Infected \infected{} or Recovered \recovered{}. Later, the fourth state Vaccinated \vaccinated{} is introduced. 
+It is a stationary state that permanently excludes people from taking any of the three other states. 
+For a person in one of those three active states \susceptible{}, \infected{} and \recovered{}, three transitions are following with their respective probabilities:
+% \begin{equation*}
+%     \mathrm{Susceptible}~\susceptible\xlongrightarrow{p_1}\mathrm{Infected}~\infected{}\xlongrightarrow{p_2}\mathrm{Recovered}~\recovered{}\xlongrightarrow{p_3}\mathrm{Susceptible}~\susceptible{}.
+% \end{equation*}
+\begin{figure}[H]
+    \centering
+    \tikzset{mynode/.style={text width=2.5cm, align=center}}
+    \begin{tikzpicture}[-{Stealth[bend]}]
+        \foreach \a/\t in {90/\texta,330/\textb,210/\textc}
+            \node[mynode] at (\a:\R) {{\t}};
+        
+            \draw (50:\R) arc (50:-10:\R);
+            \draw (-55:\R) arc (-55:-125:\R);
+            \draw (-170:\R) arc (-170:-230:\R);
+            
+            \node[] at (2.125,1){$p_1$};
+            \node[] at (0,-2.375){$p_2$};
+            \node[] at (-2.125,1){$p_3$};
+    \end{tikzpicture}
+\end{figure}
+% With that, we have the following three transition probabilities:
 \begin{itemize}
     \item $p_1$: a susceptible person getting infected by an infected neighbor
     \item $p_2$: an infected person turning recovered
     \item $p_3$: a recovered person returning susceptible
 \end{itemize}
 For the $\susceptible{}\rightarrow\infected{}$ transition, a von Neumann neighborhood was applied, meaning the four immediately adjacing nodes are consideres as neighbors.\cite{CellularAutomaton} 
-Vaccinated people \vaccinated{} are set at the beginning of the simulation, with $p_4$ being the probability that a spot is occupied by one. The other three states are initialized with the same likelyhood, as the 
+Vaccinated people \vaccinated{} are set at the beginning of the simulation, with $p_4$ being the probability that a spot is occupied by one. The other three states are initialized with the same likelihood, as the 
 simulation steps progress by each updating $L^2$ randomly chosen nodes according to the above mentioned rules.
 
 Goal was now to use this model to examine the influence of the transition probabilities on the infection rates averaged over all simulation steps. This included varying the $\susceptible\rightarrow\infected$ turover rate $p_1$
-for diffrent combinations of $p_2\left(\infected\rightarrow\recovered\,\right)$ and $p_3\left(\recovered\rightarrow\susceptible\,\right)$ as well as using different vaccination rates $p_4$ at initialization. 
-For all simulations, different grid sizes were used to observe potential statistical inaccuracies.
-
-Further, the time evolution of the infection rates was looked at to stress the validity of the preceding time averaging. Therefor a quantity of 20 infection rate samples was generated over simulation time
+for different combinations of $p_2\left(\infected\rightarrow\recovered\,\right)$ and $p_3\left(\recovered\rightarrow\susceptible\,\right)$ as well as using different vaccination rates $p_4$ at initialization. 
+For all simulations, different grid sizes were used to observe potential statistical inaccuracies.\newline
+Further, the time evolution of the infection rates was looked at to stress the validity of the preceding time averaging. Therefore a quantity of 20 infection rate samples was generated over simulation time
 with mean and standard deviation calculated for each timestep.
