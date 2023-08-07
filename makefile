@@ -31,19 +31,19 @@ run: $(BINARY)
 plot: 
 	cd soi_data && python3 soi_plotting.py 
 
-animate12:
-	cd soi_animations && manim -pqh --fps 12 soi_animations.py soi_main_scene && cd media/videos/soi_animation/1080p12 && ffmpeg -i soi_main_scene.mp4 -filter:v fps=60 soi_main_scene_fps60.mp4
+# animate12:
+# 	cd soi_animations && manim -pqh --fps 12 soi_animations.py soi_main_scene && cd media/videos/soi_animation/1080p12 && ffmpeg -i soi_main_scene.mp4 -filter:v fps=60 soi_main_scene_fps60.mp4
 
-animate60:
-	cd soi_animations && manim -pqh --fps 60 soi_animations.py soi_main_scene
+# animate60:
+# 	cd soi_animations && manim -pqh --fps 60 soi_animations.py soi_main_scene
 
 
 # compile and move PDF to main folder without (make pdf) or with (make bib) renewing bibliography
-pdf:
-	cd soi_pdf && xelatex main.tex && mv main.pdf ../$(BINARY).pdf
+# pdf:
+# 	cd soi_pdf && xelatex main.tex && mv main.pdf ../$(BINARY).pdf
 
-bib:
-	cd soi_pdf && xelatex main.tex && biber main && xelatex main.tex && xelatex main.tex && mv main.pdf ../$(BINARY).pdf	
+# bib:
+# 	cd soi_pdf && xelatex main.tex && biber main && xelatex main.tex && xelatex main.tex && mv main.pdf ../$(BINARY).pdf	
 
 
 # clean
