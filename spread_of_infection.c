@@ -18,11 +18,11 @@ double random_uniform(void) {
 }
 
 
-// print out a given quadratic grid of sidelength 'length'
+// print out a given quadratic grid of sidelength 'length' ignoring its ghosts
 void print_grid(int *grid, int length) {
     printf("\n+++ print grid +++\n\n");
-    for (int row_i = 0; row_i < length; row_i++) {
-        for (int column_j = 0; column_j < length; column_j++) {
+    for (int row_i = 1; row_i < length-1; row_i++) {
+        for (int column_j = 1; column_j < length-1; column_j++) {
             int *node = &grid[row_i*length + column_j];
             if (*node == -1) {
                 printf("V");
@@ -201,7 +201,7 @@ int main(void) {
     fprintf(average_ratio_file_a, "00");
     fprintf(average_ratio_file_b, "00");
     fprintf(average_ratio_file_c, "00");
-    for (double p1 = 0; p1 <= 1; p1 += 0.02) {
+    for (double p1 = 0; p1 < 1.01; p1 += 0.02) {
         fprintf(average_ratio_file_a, ", %g", p1);
         fprintf(average_ratio_file_b, ", %g", p1);
         fprintf(average_ratio_file_c, ", %g", p1);
@@ -226,7 +226,7 @@ int main(void) {
         }
 
         // iteration over 'p1' for the main dependency
-        for (double p1 = 0; p1 <= 1; p1 += 0.02) {
+        for (double p1 = 0; p1 < 1.01; p1 += 0.02) {
             double probability_array_a[4] = {p1, 0.3, 0.3, 0};                  // probability array for a: 'p2' = 0.3 and 'p3' = 0.3
             double probability_array_b[4] = {p1, 0.6, 0.3, 0};                  // probability array for b: 'p2' = 0.6 and 'p3' = 0.3
             double probability_array_c[4] = {p1, 0.3, 0.6, 0};                  // probability array for c: 'p2' = 0.3 and 'p3' = 0.6
@@ -263,7 +263,7 @@ int main(void) {
     // setting up the file for the time-averaged infection rate with respect to time over 'p4' with its first line
     FILE* average_ratio_file_v = fopen("soi_data/soi_average_ratio_infected_over_p4_v.csv", "w");
     fprintf(average_ratio_file_v, "00");                                        // using dummy 00 to fill the top left entry of the csv
-    for (double p4 = 0; p4 <= 1; p4 += 0.02) {
+    for (double p4 = 0; p4 < 1.01; p4 += 0.02) {
         fprintf(average_ratio_file_v, ", %g", p4);
     }
 
@@ -274,7 +274,7 @@ int main(void) {
         int *infectious_grid_v = (int*) calloc((L+2)*(L+2), sizeof(int));       // allocating memory for the respective grid containing vaccinated individuals
 
         // iteration over 'p4' as the main dependency
-        for (double p4 = 0; p4 <= 1; p4 += 0.02) {
+        for (double p4 = 0; p4 < 1.01; p4 += 0.02) {
             double probability_array_v[4] = {0.5, 0.5, 0.5, p4};                // probability array with 'p1' = 'p2' = 'p3' = 0.5 and variable 'p4'
             grid_init(infectious_grid_v, L+2, probability_array_v);             // initializing the vaccinated grid with its respective probability array
             double avg_ratio_v = average_ratio_infected(infectious_grid_v, L+2, T, probability_array_v);
