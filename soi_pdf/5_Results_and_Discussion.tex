@@ -2,15 +2,15 @@
 
 \subsection{Ratio of Infected People Averaged over Time}
 
-{Aim was now to analyse the infection rate inside the grid averaged over all timesteps $\overline{\langle I\rangle}$ for different combinations of $p_1$, $p_2$ and $p_3$. To achieve this, the dependency of the 
+{Aim was now to analyse the infection rate inside the grid averaged over all timesteps $\overline{\langle I\rangle}$ for different combinations of $p_1$, $p_2$, and $p_3$. To achieve this, the dependency of the 
 turnover probability $p_1\left(\susceptible\rightarrow\infected\,\right)$ on the time-averaged infection rates was simulated for different combinations of $p_2\left(\infected\rightarrow\recovered\,\right)$
-and $p_3\left(\recovered\rightarrow\susceptible\,\right)$. The simulation was performed over $T=1000$ simulation steps for each of the grid sizes $L=16$, $L=32$, $L=64$ and $L=128$.\parfillskip=0pt\par}
+and $p_3\left(\recovered\rightarrow\susceptible\,\right)$. The simulation was performed over $T=1000$ simulation steps for each of the grid sizes $L=16$, $L=32$, $L=64$, and $L=128$.\parfillskip=0pt\par}
 
 \begin{figure}[H]
     \centering
     \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p1.pgf}}
     \caption{Plots showing the time-averaged infection rates $\overline{\langle I\rangle}$ in dependence of the turnover probability $p_1\left(\susceptible\rightarrow\infected\,\right)$
-    for the different grid sizes $L=16$, $L=32$, $L=64$ and $L=128$ with $T=1000$ simulation steps each. The upper plot was generated using the turnover rates 
+    for the different grid sizes $L=16$, $L=32$, $L=64$, and $L=128$ with $T=1000$ simulation steps each. The upper plot was generated using the turnover rates 
     $p_2\left(\infected\rightarrow\recovered\,\right)=0.3$ and $p_3\left(\recovered\rightarrow\susceptible\,\right)=0.3$, 
     the middle one using $p_2=0.6$ and $p_3=0.3$, and the lower one $p_2=0.3$ and $p_3=0.6$.}\label{fig:res_dis_avg_inf_over_p1}
 \end{figure}
@@ -55,7 +55,7 @@ gains importance for higher infectction rates, while recovery rate $p_2$ and inf
     \centering
     \resizebox{\textwidth}{!}{\input{images/soi_average_infected_over_p4.pgf}}
     \caption{Display of the time-averaged infection rates $\overline{\langle I\rangle}$ depending on the vaccination rate $p_4$ at the beginning of the simulation and constant turnover probabilities
-    $p_1=p_2=p_3=0.5$. The simulation was performed over $T=1000$ simulation steps and th respective grid sizes $L=16$, $L=32$, $L=64$ and $L=128$.}\label{fig:res_dis_avg_inf_over_p4}
+    $p_1=p_2=p_3=0.5$. The simulation was performed over $T=1000$ simulation steps and th respective grid sizes $L=16$, $L=32$, $L=64$, and $L=128$.}\label{fig:res_dis_avg_inf_over_p4}
 \end{figure}
 
 
@@ -63,7 +63,7 @@ gains importance for higher infectction rates, while recovery rate $p_2$ and inf
 
 In this simulation part, permanently vaccinated individuals \vaccinated{} were introduced. To investigate their influence of the infectious spread, the vaccination rate $p_4$ was varied between values of zero and one
 and its influence on the infection rate --- again averaged over simulation time --- was calculated for $p_1=p_2=p_3=0.5$. Like previously, a total of $T=1000$ simulation steps for the grid sizes 
-$L=16$, $L=32$, $L=64$ and $L=128$ were conducted and can be observed in \prettyref{fig:res_dis_avg_inf_over_p4}. 
+$L=16$, $L=32$, $L=64$, and $L=128$ were conducted and can be observed in \prettyref{fig:res_dis_avg_inf_over_p4}. 
 
 It can be seen that the time-averaged infection rate has an original value of around $\overline{\langle I\rangle}=0.25$ for $p_4=0$ and then decreases until a vaccination rate of approximately $p_4=0.3$ is reached.
 At that vaccination rate the spread vanishes entirely. Again, the different grid sizes are subject the previously descibed deviations. 

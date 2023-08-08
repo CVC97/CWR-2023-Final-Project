@@ -3,7 +3,7 @@
 \subsection{Integration of External Libraries}
 
 Alongside the C standard library headers, the \texttt{gsl\_rng.h} of the GNU Scientific Library (GSL) as well as the two numeric libraries \texttt{cvc\_numerics.h} and \texttt{cvc\_rng.h} were included in the project. 
-Of the standard library, the header files \texttt{stdio.h}, \texttt{stdlib.h}, \texttt{tgmath.h} and \texttt{time.h} were used, the GSL header \texttt{gsl\_rng.h} was only accessed to generate pseudorandom nubers. 
+Of the standard library, the header files \texttt{stdio.h}, \texttt{stdlib.h}, \texttt{tgmath.h}, and \texttt{time.h} were used, the GSL header \texttt{gsl\_rng.h} was only accessed to generate pseudorandom nubers. 
 
 The \texttt{cvc\_numerics.h} of the two own libraries provides mainly numerical methods for differentation, integration or to solve differential equations, while the \texttt{cvc\_rng.h} offers functions requiring PRNGs.
 This includes for instance Monte-Carlo integrators or tools helpful to analyse stochastic datasets such as calculating mean or standard deviation of given arrays.
